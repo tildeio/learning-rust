@@ -1,0 +1,6 @@
+[package]
+name = "helloworld"
+version = "0.1.0"
+authors = ["Liz Baillie and Rocky Neurock <engineering+lb+rn@tilde.io>"]
+
+[dependencies]
