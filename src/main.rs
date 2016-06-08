@@ -2,7 +2,6 @@
 #![feature(question_mark)]
 
 pub type StringLiteral = &'static str;
-// use std::io::Write;
 
 #[derive(Debug, Eq, PartialEq)]
 struct Player {
@@ -138,19 +137,6 @@ fn write(f: &mut fmt::Formatter) -> fmt::Result {
     write!(f, "world")
 }
 
-
-// fn decrement(number: u64) -> Result<u64, StringLiteral> {
-//     if number == 0 {
-//         Err("Sorry, you cannot pass 0 to maybe_err")
-//     } else {
-//         Ok(number - 1)
-//     }
-// }
-
-// fn decrement_three(x: u64, y: u64, z: u64) -> Result<(u64, u64, u64), StringLiteral> {
-//     Ok((decrement(x)?, decrement(y)?, decrement(z)?))
-// }
-
 pub fn room(x: usize, y: usize, desc: StringLiteral) -> Room {
     Room::new(x, y, desc)
 }
@@ -166,29 +152,6 @@ fn main() {
     let player = Player::new("Liz", 1, 1);
 
     println!("{:?}", player);
-
-    // println!("{}", map);
-
-    // // match decrement(0) {
-    // //     Ok(number) => println!("{}", number),
-    // //     Err(error) => println!("{}", error)
-    // // }
-
-    // match decrement_three(1, 5, 6) {
-    //     Ok((x, y, z)) => println!("{}, {}, {}", x, y, z),
-    //     Err(err) => println!("OMG!!!!! {}", err)
-    // }
-
-    // let x: Result<(), StringLiteral> = Err("hello").expect("I don't know why I'm so sure this can't fail...");
-
-    // write!(std::io::stdout(), "hello world").expect("This can't be an error, and here's why");
-
-    // let (number, is_ok) = maybe_error(1);
-    // if is_ok {
-    //     println!("{}", number);
-    // } else {
-    //     println!("Sorry, you cannot pass 0 to maybe_error");        
-    // }
 }
 
 #[cfg(test)]
