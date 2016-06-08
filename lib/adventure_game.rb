@@ -12,36 +12,35 @@ module AdventureGame
     end
   end
 
-  class Map < Struct.new(:title, :rooms)
+  class Map < Struct.new(:title, :rooms, :max_x, :max_y)
     def initialize(title, room_list)
-      rooms = []
-      
+      rooms = {}
+      max_x = 0
+      max_y = 0
+
       room_list.each do |room|
         x = room.location.x
         y = room.location.y
 
-        rooms[x] ||= []
-        rooms[x][y] = room
+        max_x = [max_x, x].max
+        max_y = [max_y, y].max
+
+        rooms[room.location] = room
       end
 
-      super title, rooms
+      super title, rooms, max_x, max_y
+    end
+
+    def [](location)
+      self.rooms[location]
     end
 
     def valid_directions(location)
-      x = location.x
-      y = location.y
-
-      can_go_south = location.y > 0
-      can_go_west  = location.x > 0
-
-      can_go_east  = rooms[x + 1] && rooms[x + 1][y]
-      can_go_north = rooms[x] && rooms[x][y + 1]   
-
       {
-        north: !!can_go_north,
-        south: !!can_go_south,
-        east: !!can_go_east,
-        west: !!can_go_west
+        north: location.y < self.max_y,
+        south: location.y > 0,
+        east: location.x < self.max_x,
+        west: location.x > 0
       }
     end
   end

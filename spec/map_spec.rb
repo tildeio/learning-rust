@@ -4,14 +4,20 @@ describe AdventureGame::Map do
   end
 
   context "small map" do
-    subject(:map) do
-      rooms = [
+    let(:rooms) do
+      [
         room(0, 2, "top left"),    room(1, 2, "top center"),    room(2, 2, "top right"),
         room(0, 1, "middle left"), room(1, 1, "middle center"), room(2, 1, "middle right"),
         room(0, 0, "bottom left"), room(1, 0, "bottom center"), room(2, 0, "bottom right")
-      ]
+      ]    
+    end
 
+    subject(:map) do
       AdventureGame::Map.new("Liz's Great Adventure", rooms)
+    end
+
+    it "looks up rooms by coordinates" do
+      expect(map.rooms[AdventureGame::Location.new(0, 2)]).to eq(rooms[0])
     end
 
     it "produces valid directions for top left" do
