@@ -1,0 +1,88 @@
+#![allow(dead_code)]
+#![feature(question_mark)]
+
+#[derive(Debug)]
+struct Location {
+    x: u64,
+    y: u64,
+}
+
+
+#[derive(Debug)]
+pub struct Room {
+    location: Location,
+    description: String,
+}
+
+type StringLiteral = &'static str;
+
+impl Room {
+    fn new(x: u64, y: u64, description: StringLiteral) -> Room {
+        Room {
+            location: Location { x: x, y: y },
+            description: description.to_string(),
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Map {
+    title: String,
+    rooms: Vec<Vec<Room>>,
+}
+
+use std::fmt;
+
+impl fmt::Display for Map {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        writeln!(f, "{}", self.title)?;
+
+        for _ in self.title.chars() {
+            write!(f, "=")?;
+        }
+
+        write!(f, "\n\n")?;
+
+        for rooms in &self.rooms {
+            for room in rooms {
+                write!(f, "{:20} ", room.description)?;                
+            }
+            
+            write!(f, "\n")?;
+
+            for room in rooms {
+                write!(f, "{:20} ", format!("{}, {}", room.location.x, room.location.y))?;                
+            }
+            
+            write!(f, "\n")?;
+        }
+
+        Ok(())
+    }
+}
+
+fn write(f: &mut fmt::Formatter) -> fmt::Result {
+    write!(f, "hello")?;
+    write!(f, "world")
+}
+
+impl Map {
+    fn new(title: StringLiteral, rooms: Vec<Vec<Room>>) -> Map {
+        Map {
+            title: title.to_string(),
+            rooms: rooms,
+        }
+    }
+}
+
+fn main() {
+    let rooms = vec![
+        vec![Room::new(0, 0, "top left"),    Room::new(0, 1, "top center"),    Room::new(0, 2, "top right")],
+        vec![Room::new(1, 0, "middle left"), Room::new(1, 1, "middle center"), Room::new(1, 2, "middle right")],
+        vec![Room::new(2, 0, "bottom left"), Room::new(2, 1, "bottom center"), Room::new(2, 2, "bottom right")],
+    ];
+
+    let map = Map::new("Liz's Great Adventure", rooms);
+
+    println!("{}", map);
+}

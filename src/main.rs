@@ -131,27 +131,27 @@ impl Map {
 
 impl fmt::Display for Map {
     fn fmt(&self, _f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        // writeln!(f, "{}", self.title)?;
+        // writeln!(_f, "{}", self.title)?;
 
         // for _ in self.title.chars() {
-        //     write!(f, "=")?;
+        //     write!(_f, "=")?;
         // }
 
-        // write!(f, "\n\n")?;
+        // write!(_f, "\n\n")?;
 
         // for row in &self.rooms {
         //     for room in row {
-        //         write!(f, "{:20} ", room.description)?;
+        //         write!(_f, "{:20} ", room.description)?;
         //     }
 
-        //     write!(f, "\n")?;
+        //     write!(_f, "\n")?;
 
         //     for room in row {
-        //         write!(f, "{:20} ",
+        //         write!(_f, "{:20} ",
         //                format!("{}, {}", room.location.x, room.location.y))?;
         //     }
 
-        //     write!(f, "\n")?;
+        //     write!(_f, "\n")?;
         // }
 
         Ok(())

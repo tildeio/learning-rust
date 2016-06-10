@@ -1,4 +1,5 @@
 module AdventureGame
+require 'pry'
   # A Location is a simple object that has an `x` and
   # `y` coordinate. Both are numbers.
   class Location < Struct.new(:x, :y)
@@ -19,6 +20,79 @@ module AdventureGame
     # the description.
     def to_s
       "#{location.x}, #{location.y}, #{description}"
+    end
+  end
+  
+  class Player < Struct.new(:name, :inventory)
+    attr_accessor :name
+    
+    def initialize
+      puts "What is your name?"
+      @name = gets.chomp
+      @inventory = []
+    end
+    
+    def print_inventory
+      if @inventory.length > 0
+        @inventory.each_with_index do |item, index|
+          puts "#{index + 1}. item"
+        end
+      end
+    end
+  end
+  
+  class Game
+    def initialize
+      @player = Player.new
+      @playing = true
+      @map = Map.new("Adventure Game", rooms)
+      play
+    end
+    
+    def play
+      @map.display_map
+      puts "Hi, #{@player.name}. What would you like to do?"
+      parse_choice(gets.chomp)
+      while @playing
+        puts "What now?"
+        choice = gets.chomp
+        parse_choice(choice)
+        break if !@playing
+      end
+    end
+    
+    def parse_choice(choice)
+      return choice
+    end
+    
+    def help
+      puts <<-HEREDOC
+        exit: exit the game
+        north, south, east, west: move in this direction
+        look around: see a description of the current room
+        pick up #{item}: add the item to your inventory
+        use #{item}: use an item in your inventory
+        map: look at map
+      HEREDOC
+    end
+    
+    def exit
+      @playing = false
+      puts "Bye, #{@player.name}! Thanks for playing!"
+    end
+    
+    def rooms 
+      [     
+        Room.new(0, 0, "Unicorn Room"),
+        Room.new(0, 1, "Bear Room"),
+        Room.new(0, 2, "Cool Stuff Room"),
+        Room.new(1, 0, "Crappy Stuff Room"),
+        Room.new(1, 1, "Starting Out Room"),
+        Room.new(1, 2, "Cute Puppy Room"),
+        Room.new(2, 0, "Sandwich and Chips Room"),
+        Room.new(2, 1, "Home Alone Room"),
+        Room.new(2, 2, "Dank Meme Room")
+      ]
     end
   end
 
@@ -42,18 +116,28 @@ module AdventureGame
         # extract x and y from the room's location
         x = room.location.x
         y = room.location.y
-
-        # update max_x and max_y if necessary
+        
+        #update max_x and max_y if necessary
         max_x = [max_x, x].max
         max_y = [max_y, y].max
-
-        # insert the room into the rooms Hash with its location
-        # as a key
+        
+        #insert the room into the rooms Hash with its location
         rooms[room.location] = room
       end
 
       # construct a new Map with title, rooms, max_x and max_y
       super title, rooms, max_x, max_y
+    end
+    
+    def display_map
+      puts title
+      title.length.times do
+        print "="
+      end
+      puts "\n"
+      rooms.each_with_index do |room, index|
+        puts "#{index}. #{room.description}"
+      end
     end
 
     def [](location)
@@ -82,3 +166,5 @@ module AdventureGame
     end
   end
 end
+
+AdventureGame::Game.new
