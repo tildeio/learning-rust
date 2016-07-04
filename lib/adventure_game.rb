@@ -79,7 +79,11 @@ require 'pry'
       choice = choice.split.join("_").to_sym
       check_validity(choice)
       valid_choice = @valid_choices.select { |entry| entry == choice.to_sym }.first
-      self.send valid_choice if valid_choice != nil
+      if [:north, :south, :east, :west].include?(valid_choice)
+        move(valid_choice)
+      elsif valid_choice != nil
+        self.send valid_choice
+      end
     end
 
     def display_map
@@ -88,6 +92,27 @@ require 'pry'
 
     def look_around
       puts rooms.select { |room| room[0] == @player.location }.first.description
+    end
+
+    def move(direction)
+      if @map.valid_directions(@player.location)[direction]
+        case direction
+       when :north
+         @player.location.y += 1
+         puts "You have moved north! Your new location is #{@player.location.x}, #{@player.location.y}"
+       when :south
+         @player.location.y -= 1
+         puts "You have moved south! Your new location is #{@player.location.x}, #{@player.location.y}"
+       when :west
+         @player.location.x -= 1
+         puts "You have moved west! Your new location is #{@player.location.x}, #{@player.location.y}"
+       when :east
+         @player.location.x += 1
+         puts "You have moved east! Your new location is #{@player.location.x}, #{@player.location.y}"
+       else
+         puts "Sorry, you can't move there!"
+       end
+      end
     end
 
     def help
