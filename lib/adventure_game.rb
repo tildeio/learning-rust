@@ -23,10 +23,11 @@ require 'pry'
     end
   end
 
-  class Player < Struct.new(:name, :inventory)
-    attr_accessor :name
+  class Player < Struct.new(:name, :inventory, :location)
+    attr_accessor :name, :location
 
     def initialize
+      @location = Location.new(0,0)
       puts "What is your name?"
       @name = gets.chomp
       @inventory = []
@@ -83,6 +84,10 @@ require 'pry'
 
     def display_map
       @map.display_map
+    end
+
+    def look_around
+      puts rooms.select { |room| room[0] == @player.location }.first.description
     end
 
     def help
