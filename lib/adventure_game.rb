@@ -73,10 +73,16 @@ require 'pry'
       end
     end
 
+
     def parse_choice(choice)
+      choice = choice.split.join("_").to_sym
       check_validity(choice)
       valid_choice = @valid_choices.select { |entry| entry == choice.to_sym }.first
       self.send valid_choice if valid_choice != nil
+    end
+
+    def display_map
+      @map.display_map
     end
 
     def help
@@ -112,7 +118,7 @@ require 'pry'
     private
 
     def check_validity(choice)
-      unless @valid_choices.include? choice.to_sym
+      unless @valid_choices.include? choice
         puts "That is not a valid choice. Try again."
       end
     end
