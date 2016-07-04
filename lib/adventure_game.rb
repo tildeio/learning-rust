@@ -114,7 +114,6 @@ require 'pry'
     def check_validity(choice)
       unless @valid_choices.include? choice.to_sym
         puts "That is not a valid choice. Try again."
-        return
       end
     end
   end
