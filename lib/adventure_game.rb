@@ -112,6 +112,8 @@ require 'pry'
        else
          puts "Sorry, you can't move there!"
        end
+      else
+        puts "Sorry, you can't move there!"
       end
     end
 
