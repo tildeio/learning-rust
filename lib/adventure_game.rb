@@ -148,7 +148,7 @@ require 'pry'
       end
       puts "\n"
       rooms.each_with_index do |room, index|
-        puts "#{index}. #{room.description}"
+        puts "#{index}. #{room[1].description}"
       end
     end
 
