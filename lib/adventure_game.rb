@@ -74,7 +74,9 @@ require 'pry'
     end
 
     def parse_choice(choice)
-      self.send @valid_choices.select { |entry| entry == choice.to_sym }.first
+      check_validity(choice)
+      valid_choice = @valid_choices.select { |entry| entry == choice.to_sym }.first
+      self.send valid_choice if valid_choice != nil
     end
 
     def help
@@ -105,6 +107,15 @@ require 'pry'
         Room.new(2, 1, "Home Alone Room"),
         Room.new(2, 2, "Dank Meme Room")
       ]
+    end
+
+    private
+
+    def check_validity(choice)
+      unless @valid_choices.include? choice.to_sym
+        puts "That is not a valid choice. Try again."
+        return
+      end
     end
   end
 
