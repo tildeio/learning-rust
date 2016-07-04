@@ -82,9 +82,9 @@ require 'pry'
         exit: exit the game
         north, south, east, west: move in this direction
         look around: see a description of the current room
-        pick up #{item}: add the item to your inventory
-        use #{item}: use an item in your inventory
-        map: look at map
+        pick up _item_: add the item to your inventory
+        use _item_: use an item in your inventory
+        display map: look at map
       HEREDOC
     end
 
