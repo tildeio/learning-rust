@@ -58,7 +58,7 @@ require 'pry'
 
       @player = Player.new
       @playing = true
-      @map = Map.new("Adventure Game", rooms)
+      @map = Map.new("Adventure Game", rooms, @player)
       play
     end
 
@@ -165,7 +165,8 @@ require 'pry'
     # which is an array of rooms, and the room list is
     # converted into the expected Hash and max_x/max_y
     # values.
-    def initialize(title, room_list)
+    def initialize(title, room_list, player)
+      @player = player
       # Construct an empty Hash and initialize max_x and max_y
       rooms = {}
       max_x = 0
@@ -196,7 +197,11 @@ require 'pry'
       end
       puts "\n"
       rooms.each_with_index do |room, index|
-        puts "#{index}. #{room[1].description}"
+        if room[0] == @player.location
+          puts "#{index}. #{room[1].description}. You are here."
+        else
+          puts "#{index}. #{room[1].description}"
+        end
       end
     end
 
