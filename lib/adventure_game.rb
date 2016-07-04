@@ -22,16 +22,16 @@ require 'pry'
       "#{location.x}, #{location.y}, #{description}"
     end
   end
-  
+
   class Player < Struct.new(:name, :inventory)
     attr_accessor :name
-    
+
     def initialize
       puts "What is your name?"
       @name = gets.chomp
       @inventory = []
     end
-    
+
     def print_inventory
       if @inventory.length > 0
         @inventory.each_with_index do |item, index|
@@ -40,7 +40,7 @@ require 'pry'
       end
     end
   end
-  
+
   class Game
 
     def initialize
@@ -60,7 +60,7 @@ require 'pry'
       @map = Map.new("Adventure Game", rooms)
       play
     end
-    
+
     def play
       @map.display_map
       puts "Hi, #{@player.name}. What would you like to do?"
@@ -72,11 +72,11 @@ require 'pry'
         break if !@playing
       end
     end
-    
+
     def parse_choice(choice)
       self.send @valid_choices.select { |entry| entry == choice.to_sym }.first
     end
-    
+
     def help
       puts <<-HEREDOC
         exit: exit the game
@@ -87,14 +87,14 @@ require 'pry'
         map: look at map
       HEREDOC
     end
-    
+
     def exit
       @playing = false
       puts "Bye, #{@player.name}! Thanks for playing!"
     end
-    
-    def rooms 
-      [     
+
+    def rooms
+      [
         Room.new(0, 0, "Unicorn Room"),
         Room.new(0, 1, "Bear Room"),
         Room.new(0, 2, "Cool Stuff Room"),
@@ -128,11 +128,11 @@ require 'pry'
         # extract x and y from the room's location
         x = room.location.x
         y = room.location.y
-        
+
         #update max_x and max_y if necessary
         max_x = [max_x, x].max
         max_y = [max_y, y].max
-        
+
         #insert the room into the rooms Hash with its location
         rooms[room.location] = room
       end
@@ -140,7 +140,7 @@ require 'pry'
       # construct a new Map with title, rooms, max_x and max_y
       super title, rooms, max_x, max_y
     end
-    
+
     def display_map
       puts title
       title.length.times do
