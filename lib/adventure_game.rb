@@ -42,7 +42,19 @@ require 'pry'
   end
   
   class Game
+
     def initialize
+      @valid_choices = [
+        :help,
+        :exit,
+        :north,
+        :south,
+        :east,
+        :west,
+        :display_map,
+        :look_around
+      ]
+
       @player = Player.new
       @playing = true
       @map = Map.new("Adventure Game", rooms)
@@ -62,7 +74,7 @@ require 'pry'
     end
     
     def parse_choice(choice)
-      return choice
+      self.send @valid_choices.select { |entry| entry == choice.to_sym }.first
     end
     
     def help
