@@ -32,6 +32,10 @@ require 'pry'
       @name = gets.chomp
       @inventory = {}
     end
+
+    def add_to_inventory(item)
+      @inventory[item] ? @inventory[item] += 1 : @inventory[item] = 1
+      puts "#{item.capitalize} has been added to your inventory."
     end
 
     def print_inventory
@@ -54,7 +58,8 @@ require 'pry'
         :east,
         :west,
         :display_map,
-        :look_around
+        :look_around,
+        :pick_up
       ]
 
       @player = Player.new
@@ -73,6 +78,10 @@ require 'pry'
         parse_choice(choice)
         break if !@playing
       end
+    end
+
+    def pick_up(item)
+      @player.add_to_inventory(item)
     end
 
 
@@ -151,7 +160,8 @@ require 'pry'
     private
 
     def check_validity(choice)
-      unless @valid_choices.include? choice
+      valid_options = ['pick up']
+      unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
         puts "That is not a valid choice. Try again."
       end
     end
