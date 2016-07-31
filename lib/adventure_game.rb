@@ -24,13 +24,14 @@ require 'pry'
   end
 
   class Player < Struct.new(:name, :inventory, :location)
-    attr_accessor :name, :location
+    attr_accessor :name, :location, :inventory
 
     def initialize
       @location = Location.new(0,0)
       puts "What is your name?"
       @name = gets.chomp
-      @inventory = []
+      @inventory = {}
+    end
     end
 
     def print_inventory
