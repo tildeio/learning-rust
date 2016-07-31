@@ -76,6 +76,14 @@ require 'pry'
     end
   end
 
+  class InventoryItem
+    def initialize(name, count, owner)
+      @name = name
+      @count = count
+      @owner = owner # owner can only be Player or Room
+    end
+  end
+
   class Game
 
     def initialize
