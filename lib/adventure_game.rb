@@ -18,18 +18,21 @@ require 'pry'
   # A Room is a simple object that has a `location`,
   # (which is a Location object) and a description
   # (which is a string).
-  class Room < Struct.new(:location, :description)
+  class Room < Struct.new(:location, :name, :description, :items)
+    # `items` is the Room's inventory, which is empty
+    # unless populated on Room initialization
+    @items = []
     # The Room is constructed with an x and y, which
     # are passed to Location.new, so they should be
     # numbers.
-    def self.new(x, y, description)
-      super Location.new(x, y), description
+    def self.new(x, y, name, description, items)
+      super Location.new(x, y), name, description, items
     end
 
     # to_s prints out the x and y coordinates and
-    # the description.
+    # the name.
     def to_s
-      "#{location.x}, #{location.y}, #{description}"
+      "#{location.x}, #{location.y}, #{name}"
     end
   end
 
@@ -262,9 +265,9 @@ require 'pry'
       puts "\n"
       rooms.each_with_index do |room, index|
         if room[0] == @player.location
-          puts "#{index}. #{room[1].description}. You are here."
+          puts "#{index}. #{room[1].name}. You are here."
         else
-          puts "#{index}. #{room[1].description}"
+          puts "#{index}. #{room[1].name}"
         end
       end
     end
