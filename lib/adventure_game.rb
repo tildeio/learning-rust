@@ -177,6 +177,7 @@ require 'pry'
         pick up _item_: add the item to your inventory
         use _item_: use an item in your inventory
         display map: look at map
+        display inventory: show current player inventory
       HEREDOC
     end
 
