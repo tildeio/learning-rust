@@ -1,3 +1,13 @@
+# TODO
+# * fix tests
+# * add more tests
+# * inventory - can look around and see items
+# * inventory - can pick up only items in room
+# * inventory - can use items in personal inventory
+# * inventory - used items are removed from inventory when applicable
+# * map - make map more useful/visually oriented
+# * add NPCs and ability to interact with them
+
 module AdventureGame
 require 'pry'
   # A Location is a simple object that has an `x` and
@@ -110,6 +120,7 @@ require 'pry'
       @player.print_inventory
     end
 
+    #TODO: clean this method up like whoa
     def parse_choice(choice)
       new_choice = choice.split.join("_")
       check_validity(new_choice.to_sym)
