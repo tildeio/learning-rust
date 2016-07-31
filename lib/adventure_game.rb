@@ -108,6 +108,16 @@ require 'pry'
       end
     end
 
+    def win
+      puts "Congratulations, #{@player.name}! You win."
+      @playing = false
+    end
+
+    def lose
+      puts "Sorry, #{@player.name}. You lose. Better luck next time!"
+      @playing = false
+    end
+
     def pick_up(item)
       @player.add_to_inventory(item)
     end
