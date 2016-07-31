@@ -38,6 +38,15 @@ require 'pry'
       puts "#{item.capitalize} has been added to your inventory."
     end
 
+    def remove_from_inventory(item)
+      if @inventory[item] && @inventory[item] > 0
+        @inventory[item] -= 1
+        puts "#{item.capitalize} has been removed from your inventory."
+      else
+        puts "Sorry, you don't have any #{item}"
+      end
+    end
+
     def print_inventory
       if @inventory.length > 0
         @inventory.each_with_index do |item, index|
@@ -59,7 +68,8 @@ require 'pry'
         :west,
         :display_map,
         :look_around,
-        :pick_up
+        :pick_up,
+        :use,
       ]
 
       @player = Player.new
@@ -82,6 +92,10 @@ require 'pry'
 
     def pick_up(item)
       @player.add_to_inventory(item)
+    end
+
+    def use(item)
+      @player.remove_from_inventory(item)
     end
 
 
@@ -160,7 +174,7 @@ require 'pry'
     private
 
     def check_validity(choice)
-      valid_options = ['pick up']
+      valid_options = ['pick up', 'use']
       unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
         puts "That is not a valid choice. Try again."
       end
