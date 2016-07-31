@@ -48,10 +48,17 @@ require 'pry'
     end
 
     def print_inventory
-      if @inventory.length > 0
-        @inventory.each_with_index do |item, index|
-          puts "#{index + 1}. item"
+      if @inventory.keys.length > 0
+        puts "\n"
+        puts "INVENTORY"
+        puts "========="
+        @inventory.each_pair do |item, count|
+          puts "* #{item}: #{count}"
         end
+        puts "\n"
+      else
+        puts "Sorry, your inventory is empty!"
+        puts "Why not look around and see if you can find something to pick up!"
       end
     end
   end
@@ -70,6 +77,7 @@ require 'pry'
         :look_around,
         :pick_up,
         :use,
+        :print_inventory
       ]
 
       @player = Player.new
@@ -98,6 +106,9 @@ require 'pry'
       @player.remove_from_inventory(item)
     end
 
+    def print_inventory
+      @player.print_inventory
+    end
 
     def parse_choice(choice)
       choice = choice.split.join("_").to_sym
