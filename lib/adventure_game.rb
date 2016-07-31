@@ -111,11 +111,17 @@ require 'pry'
     end
 
     def parse_choice(choice)
-      choice = choice.split.join("_").to_sym
-      check_validity(choice)
-      valid_choice = @valid_choices.select { |entry| entry == choice.to_sym }.first
+      new_choice = choice.split.join("_")
+      check_validity(new_choice.to_sym)
+      valid_choice = @valid_choices.select { |entry| entry == new_choice.to_sym }.first
       if [:north, :south, :east, :west].include?(valid_choice)
         move(valid_choice)
+      elsif choice.include?('pick up')
+        item = choice.split.select{ |item| item != 'pick' && item != 'up' }.join(' ')
+        pick_up(item)
+      elsif choice.include?('use')
+        item = choice.split.select{ |item| item != 'use' }.join(' ')
+        use(item)
       elsif valid_choice != nil
         self.send valid_choice
       end
