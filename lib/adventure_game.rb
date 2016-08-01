@@ -233,13 +233,13 @@ require 'pry'
           0, 0,
           "Unicorn Room",
           "This room contains a rare and glorious unicorn. It's amazing.",
-          [InventoryItem.new("unicorn farts", 1, self)]
+          [InventoryItem.new("a jar of unicorn farts", 1, self)]
         ),
         Room.new(
           0, 1,
           "Bear Room",
           "HOLY CRAP THERE'S A BEAR IN THIS ROOM.",
-          [InventoryItem.new("bear repellant", 1, self)]
+          [InventoryItem.new("a canister of bear repellant", 1, self)]
         ),
         Room.new(
           0, 2,
@@ -251,7 +251,7 @@ require 'pry'
           1, 0,
           "Crappy Stuff Room",
           "Everything in this room stinks like garbage.",
-          [InventoryItem.new("garbage bomb", 3, self)]
+          [InventoryItem.new("a garbage bomb", 3, self)]
         ),
         Room.new(
           1, 1,
@@ -263,15 +263,15 @@ require 'pry'
           1, 2,
           "Cute Puppy Room",
           "OMG this room is FULL. OF. PUPPIES. So many puppies!",
-          [InventoryItem.new("puppy", 10, self)]
+          [InventoryItem.new("a puppy", 10, self)]
         ),
         Room.new(
           2, 0,
           "Sandwich and Chips Room",
           "Yum, there's a sandwich and some chips in here!",
           [
-            InventoryItem.new("sandwich", 1, self),
-            InventoryItem.new("chips", 1, self)
+            InventoryItem.new("a sandwich", 1, self),
+            InventoryItem.new("a bag of chips", 1, self)
           ]
         ),
         Room.new(
@@ -285,8 +285,8 @@ require 'pry'
           "Dank Meme Room",
           "This room is nothing but sweet memes.",
           [
-            InventoryItem.new("pic of Hillary Clinton texting", 1, self),
-            InventoryItem.new("pic of a dog getting hit in the face with a frisbee", 1, self)
+            InventoryItem.new("a pic of Hillary Clinton texting", 1, self),
+            InventoryItem.new("a pic of a dog getting hit in the face with a frisbee", 1, self)
           ]
         )
       ]
