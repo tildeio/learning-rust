@@ -34,6 +34,20 @@ require 'pry'
     def to_s
       "#{location.x}, #{location.y}, #{name}"
     end
+
+    def has_items
+      self.items.any?
+    end
+
+    def item_list
+      if self.items.compact.count == 1
+        self.items.compact.first.name
+      else
+        item_names = []
+        self.items.compact.each { |item| item_names << item.name }
+        item_names.join(", ")
+      end
+    end
   end
 
   class Player < Struct.new(:name, :inventory, :location)
@@ -77,6 +91,8 @@ require 'pry'
   end
 
   class InventoryItem
+    attr_reader :name, :count, :owner
+
     def initialize(name, count, owner)
       @name = name
       @count = count
@@ -164,7 +180,11 @@ require 'pry'
     end
 
     def look_around
-      puts rooms.select { |room| room[0] == @player.location }.first.description
+      current_room =  rooms.select { |room| room[0] == @player.location }.first
+      puts current_room.description
+      if current_room.has_items
+        puts "This room contains #{current_room.item_list}"
+      end
     end
 
     def move(direction)
