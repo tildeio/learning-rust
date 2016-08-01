@@ -179,8 +179,11 @@ require 'pry'
       @map.display_map
     end
 
+    def current_room
+      rooms.select { |room| room[0] == @player.location }.first
+    end
+
     def look_around
-      current_room =  rooms.select { |room| room[0] == @player.location }.first
       puts current_room.description
       if current_room.has_items
         puts "This room contains #{current_room.item_list}"
