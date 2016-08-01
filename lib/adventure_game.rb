@@ -209,15 +209,66 @@ require 'pry'
 
     def rooms
       [
-        Room.new(0, 0, "Unicorn Room"),
-        Room.new(0, 1, "Bear Room"),
-        Room.new(0, 2, "Cool Stuff Room"),
-        Room.new(1, 0, "Crappy Stuff Room"),
-        Room.new(1, 1, "Starting Out Room"),
-        Room.new(1, 2, "Cute Puppy Room"),
-        Room.new(2, 0, "Sandwich and Chips Room"),
-        Room.new(2, 1, "Home Alone Room"),
-        Room.new(2, 2, "Dank Meme Room")
+        Room.new(
+          0, 0,
+          "Unicorn Room",
+          "This room contains a rare and glorious unicorn. It's amazing.",
+          [InventoryItem.new("unicorn farts", 1, self)]
+        ),
+        Room.new(
+          0, 1,
+          "Bear Room",
+          "HOLY CRAP THERE'S A BEAR IN THIS ROOM.",
+          [InventoryItem.new("bear repellant", 1, self)]
+        ),
+        Room.new(
+          0, 2,
+          "Cool Stuff Room",
+          "This room's pretty cool, nbd",
+          [nil]
+        ),
+        Room.new(
+          1, 0,
+          "Crappy Stuff Room",
+          "Everything in this room stinks like garbage.",
+          [InventoryItem.new("garbage bomb", 3, self)]
+        ),
+        Room.new(
+          1, 1,
+          "Starting Out Room",
+          "This is a room to start out in. Nothing to see here.",
+          [nil]
+        ),
+        Room.new(
+          1, 2,
+          "Cute Puppy Room",
+          "OMG this room is FULL. OF. PUPPIES. So many puppies!",
+          [InventoryItem.new("puppy", 10, self)]
+        ),
+        Room.new(
+          2, 0,
+          "Sandwich and Chips Room",
+          "Yum, there's a sandwich and some chips in here!",
+          [
+            InventoryItem.new("sandwich", 1, self),
+            InventoryItem.new("chips", 1, self)
+          ]
+        ),
+        Room.new(
+          2, 1,
+          "Home Alone Room",
+          "This room's got nothing in it. You're allll aloooone.",
+          [nil]
+        ),
+        Room.new(
+          2, 2,
+          "Dank Meme Room",
+          "This room is nothing but sweet memes.",
+          [
+            InventoryItem.new("pic of Hillary Clinton texting", 1, self),
+            InventoryItem.new("pic of a dog getting hit in the face with a frisbee", 1, self)
+          ]
+        )
       ]
     end
 
