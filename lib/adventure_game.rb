@@ -150,7 +150,11 @@ require 'pry'
     end
 
     def pick_up(item)
-      @player.add_to_inventory(item)
+      if current_room.has_item(item)
+        @player.add_to_inventory(item)
+      else
+        puts "Sorry, that item is not in this room. Try again."
+      end
     end
 
     def use(item)
