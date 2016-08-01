@@ -1,7 +1,6 @@
 # TODO
 # * fix tests
 # * add more tests
-# * inventory - can look around and see items
 # * inventory - can pick up only items in room
 # * inventory - can use items in personal inventory
 # * inventory - used items are removed from inventory when applicable
@@ -37,6 +36,12 @@ require 'pry'
 
     def has_items
       self.items.any?
+    end
+
+    def has_item(item)
+      item_names = []
+      self.items.compact.each { |item| item_names << item.name }
+      item_names.include? item
     end
 
     def item_list
@@ -101,7 +106,6 @@ require 'pry'
   end
 
   class Game
-
     def initialize
       @valid_choices = [
         :help,
