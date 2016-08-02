@@ -240,7 +240,7 @@ require 'pry'
         pick up _item_: add the item to your inventory
         use _item_: use an item in your inventory
         display map: look at map
-        display inventory: show current player inventory
+        print inventory: show current player inventory
       HEREDOC
     end
 
@@ -317,7 +317,7 @@ require 'pry'
     private
 
     def check_validity(choice)
-      valid_options = ['pick up', 'use']
+      valid_options = ['pick up', 'use', 'display inventory']
       unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
         puts "That is not a valid choice. Try again."
       end
