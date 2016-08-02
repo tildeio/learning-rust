@@ -178,7 +178,6 @@ require 'pry'
     #TODO: clean this method up like whoa
     def parse_choice(choice)
       new_choice = choice.split.join("_")
-      check_validity(new_choice.to_sym)
       valid_choice = @valid_choices.select { |entry| entry == new_choice.to_sym }.first
       if [:north, :south, :east, :west].include?(valid_choice)
         move(valid_choice)
@@ -190,6 +189,8 @@ require 'pry'
         use(item)
       elsif valid_choice != nil
         self.send valid_choice
+      else
+        check_validity(new_choice.to_sym)
       end
     end
 
