@@ -1,7 +1,6 @@
 # TODO
 # * fix tests
 # * add more tests
-# * inventory - can pick up only items in room
 # * inventory - can use items in personal inventory
 # * inventory - used items are removed from inventory when applicable
 # * map - make map more useful/visually oriented
@@ -42,6 +41,15 @@ require 'pry'
       item_names = []
       self.items.compact.each { |item| item_names << item.name }
       item_names.include? item
+    end
+
+    # TODO: doesn't work! have to figure out how to decrement item count
+    def remove_one(user_item)
+      selected_item = self.items.select { |item| item.name == user_item }.first
+      # can't remove an item that's not there
+      return if selected_item.count <= 0
+
+      selected_item.count -= 1
     end
 
     def item_list
@@ -152,6 +160,7 @@ require 'pry'
     def pick_up(item)
       if current_room.has_item(item)
         @player.add_to_inventory(item)
+        current_room.remove_one(item)
       else
         puts "Sorry, that item is not in this room. Try again."
       end
