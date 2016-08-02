@@ -104,7 +104,8 @@ require 'pry'
   end
 
   class InventoryItem
-    attr_reader :name, :count, :owner
+    attr_accessor :count, :owner
+    attr_reader :name
 
     def initialize(name, count, owner)
       @name = name
