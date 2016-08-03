@@ -168,6 +168,8 @@ require 'pry'
     end
 
     def use(item)
+      effect = current_room.items.select { |i| i.name == item }.first.effects
+      puts effect
       @player.remove_from_inventory(item)
     end
 
