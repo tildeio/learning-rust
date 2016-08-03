@@ -81,9 +81,8 @@ require 'pry'
     def remove_from_inventory(item)
       if @inventory[item] && @inventory[item] > 0
         @inventory[item] -= 1
-        puts "#{item.capitalize} has been removed from your inventory."
       else
-        puts "Sorry, you don't have any #{item}"
+        puts "Sorry, you don't have #{item}"
       end
     end
 
