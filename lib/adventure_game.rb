@@ -1,8 +1,7 @@
 # TODO
 # * fix tests
 # * add more tests
-# * inventory - can use items in personal inventory
-# * inventory - used items are removed from inventory when applicable
+# * inventory - used items are removed from Room inventory when taken
 # * map - make map more useful/visually oriented
 # * add NPCs and ability to interact with them
 
