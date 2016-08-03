@@ -36,6 +36,7 @@ require 'pry'
       self.items.any?
     end
 
+    # check to see if this Room has this item
     def has_item(item)
       item_names = []
       self.items.compact.each { |item| item_names << item.name }
@@ -51,6 +52,7 @@ require 'pry'
       selected_item.count -= 1
     end
 
+    # puts-able list of items in Room
     def item_list
       if self.items.compact.count == 1
         self.items.compact.first.name
@@ -147,11 +149,13 @@ require 'pry'
       end
     end
 
+    # TODO: define win condition
     def win
       puts "Congratulations, #{@player.name}! You win."
       @playing = false
     end
 
+    # TODO: define lose condition
     def lose
       puts "Sorry, #{@player.name}. You lose. Better luck next time!"
       @playing = false
@@ -317,6 +321,8 @@ require 'pry'
 
     private
 
+    # TODO: refactor this like whoa, should work better with `parse_choice`
+    # should check if Player input is valid
     def check_validity(choice)
       valid_options = ['pick up', 'use', 'display inventory']
       unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
