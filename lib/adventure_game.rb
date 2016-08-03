@@ -257,13 +257,13 @@ require 'pry'
           0, 0,
           "Unicorn Room",
           "This room contains a rare and glorious unicorn. It's amazing.",
-          [InventoryItem.new("a jar of unicorn farts", 1, self)]
+          [InventoryItem.new("a jar of unicorn farts", 1, nil, "BOOM. Unicorn farts are powerful! You are now very sparkly.")]
         ),
         Room.new(
           0, 1,
           "Bear Room",
           "HOLY CRAP THERE'S A BEAR IN THIS ROOM.",
-          [InventoryItem.new("a canister of bear repellant", 1, self)]
+          [InventoryItem.new("a canister of bear repellant", 1, nil, "You are now safe from the bear! Stop stressin'")]
         ),
         Room.new(
           0, 2,
@@ -275,7 +275,7 @@ require 'pry'
           1, 0,
           "Crappy Stuff Room",
           "Everything in this room stinks like garbage.",
-          [InventoryItem.new("a garbage bomb", 3, self)]
+          [InventoryItem.new("a garbage bomb", 3, nil, "Bad move, now you stink like garbage. But so does everything else.")]
         ),
         Room.new(
           1, 1,
@@ -287,15 +287,15 @@ require 'pry'
           1, 2,
           "Cute Puppy Room",
           "OMG this room is FULL. OF. PUPPIES. So many puppies!",
-          [InventoryItem.new("a puppy", 10, self)]
+          [InventoryItem.new("a puppy", 10, nil, "You pet the heck out of the puppy. Look at his waggy tail! LOOK AT IT!! You are hypnotized.")]
         ),
         Room.new(
           2, 0,
           "Sandwich and Chips Room",
           "Yum, there's a sandwich and some chips in here!",
           [
-            InventoryItem.new("a sandwich", 1, self),
-            InventoryItem.new("a bag of chips", 1, self)
+            InventoryItem.new("a sandwich", 1, nil, "Yum, that was a good sandwich. It was made of whatever your favorite sandwich is."),
+            InventoryItem.new("a bag of chips", 1, nil, "That was a delightful bag of chips! Crunchy as heck with perfect salt.")
           ]
         ),
         Room.new(
@@ -309,8 +309,8 @@ require 'pry'
           "Dank Meme Room",
           "This room is nothing but sweet memes.",
           [
-            InventoryItem.new("a pic of Hillary Clinton texting", 1, self),
-            InventoryItem.new("a pic of a dog getting hit in the face with a frisbee", 1, self)
+            InventoryItem.new("a pic of Hillary Clinton texting", 1, nil, "You laugh yourself to sleep because memes are so funny right"),
+            InventoryItem.new("a pic of a dog getting hit in the face with a frisbee", 1, nil, "Man that frisbee dog is hilarious, isn't he? Memes are the best.")
           ]
         )
       ]
