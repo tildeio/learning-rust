@@ -15,15 +15,15 @@ require 'pry'
   # A Room is a simple object that has a `location`,
   # (which is a Location object) and a description
   # (which is a string).
-  class Room < Struct.new(:location, :name, :description, :items)
+  class Room < Struct.new(:location, :name, :description, :items, :npc)
     # `items` is the Room's inventory, which is empty
     # unless populated on Room initialization
     @items = []
     # The Room is constructed with an x and y, which
     # are passed to Location.new, so they should be
     # numbers.
-    def self.new(x, y, name, description, items)
-      super Location.new(x, y), name, description, items
+    def self.new(x, y, name, description, items, npc)
+      super Location.new(x, y), name, description, items, npc
     end
 
     # to_s prints out the x and y coordinates and
