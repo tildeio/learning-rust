@@ -405,6 +405,17 @@ require 'pry'
       }
     end
   end
+
+  # NPC = Non Player Character
+  class NPC
+    attr_reader :name, :inventory, :dialogue
+
+    def initialize(name, inventory, dialogue)
+      @name = name
+      @inventory = inventory
+      @dialogue = dialogue
+    end
+  end
 end
 
 AdventureGame::Game.new
