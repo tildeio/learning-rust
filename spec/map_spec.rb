@@ -9,7 +9,7 @@ describe AdventureGame::Map do
         room(0, 2, "top left"),    room(1, 2, "top center"),    room(2, 2, "top right"),
         room(0, 1, "middle left"), room(1, 1, "middle center"), room(2, 1, "middle right"),
         room(0, 0, "bottom left"), room(1, 0, "bottom center"), room(2, 0, "bottom right")
-      ]    
+      ]
     end
 
     subject(:map) do
@@ -40,7 +40,7 @@ describe AdventureGame::Map do
         north: true,
         south: false,
         east: false,
-        west: true 
+        west: true
       })
     end
 
@@ -52,7 +52,7 @@ describe AdventureGame::Map do
         north: true,
         south: true,
         east: true,
-        west: true 
+        west: true
       })
     end
   end
