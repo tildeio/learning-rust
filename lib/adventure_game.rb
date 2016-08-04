@@ -266,7 +266,9 @@ require 'pry'
         north, south, east, west: move in this direction
         look around: see a description of the current room
         pick up _item_: add the item to your inventory
+        take _item_: take an item from an NPC
         use _item_: use an item in your inventory
+        talk: talk to an NPC
         display map: look at map
         print inventory: show current player inventory
       HEREDOC
