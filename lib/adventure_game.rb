@@ -128,7 +128,8 @@ require 'pry'
         :look_around,
         :pick_up,
         :use,
-        :print_inventory
+        :print_inventory,
+        :talk
       ]
 
       @player = Player.new
@@ -176,6 +177,14 @@ require 'pry'
       @player.remove_from_inventory(item)
     end
 
+    def talk
+      if current_room.npc
+        puts current_room.npc.dialogue[:default]
+      else
+        puts "Sorry, no one else is in here!"
+      end
+    end
+
     def print_inventory
       @player.print_inventory
     end
@@ -212,6 +221,7 @@ require 'pry'
       if current_room.has_items
         puts "This room contains #{current_room.item_list}"
       end
+      puts current_room.npc.name + " is here too." if current_room.npc
     end
 
     def move(direction)
