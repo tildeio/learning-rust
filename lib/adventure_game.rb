@@ -272,7 +272,7 @@ require 'pry'
           "This room contains a rare and glorious unicorn. It's amazing.",
           [InventoryItem.new("a jar of unicorn farts", 1, nil, "BOOM. Unicorn farts are powerful! You are now very sparkly.")],
           NPC.new(
-            "Unicorn Doctor", 
+            "Unicorn Doctor",
             InventoryItem.new("vial of unicorn blood", 1, self, "The amazing unicorn blood has made you INVINCIBLE!"),
             {
               default: "Hi I'm a unicorn doctor. It's pretty cool. I have a vial of unicorn blood, do you want it?"
