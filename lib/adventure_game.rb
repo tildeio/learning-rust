@@ -64,8 +64,8 @@ require 'pry'
     end
   end
 
-  class Player < Struct.new(:name, :inventory, :location)
-    attr_accessor :name, :location, :inventory
+  class Player
+    attr_accessor :name, :inventory, :location
 
     def initialize
       @location = Location.new(0,0)
