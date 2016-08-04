@@ -3,7 +3,6 @@
 # * add more tests
 # * inventory - used items are removed from Room inventory when taken
 # * map - make map more useful/visually oriented
-# * add NPCs and ability to interact with them
 
 module AdventureGame
 require 'pry'
@@ -129,7 +128,8 @@ require 'pry'
         :pick_up,
         :use,
         :print_inventory,
-        :talk
+        :talk,
+        :take
       ]
 
       @player = Player.new
@@ -162,6 +162,16 @@ require 'pry'
       @playing = false
     end
 
+    # use with NPCs
+    def take(item)
+      if current_room.npc.has_item(item)
+        @player.add_to_inventory(item)
+      else
+        puts "Sorry, that item isn't here."
+      end
+    end
+
+    # use for items in a Room
     def pick_up(item)
       if current_room.has_item(item)
         @player.add_to_inventory(item)
@@ -198,6 +208,9 @@ require 'pry'
       elsif choice.include?('pick up')
         item = choice.split.select{ |item| item != 'pick' && item != 'up' }.join(' ')
         pick_up(item)
+      elsif choice.include?('take')
+        item = choice.split.select{ |item| item != 'take' }.join(' ')
+        take(item)
       elsif choice.include?('use')
         item = choice.split.select{ |item| item != 'use' }.join(' ')
         use(item)
@@ -439,6 +452,10 @@ require 'pry'
       @name = name
       @inventory = inventory
       @dialogue = dialogue
+    end
+
+    def has_item(item)
+      self.inventory.name == item
     end
   end
 end
