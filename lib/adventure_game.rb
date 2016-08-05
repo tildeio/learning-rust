@@ -73,8 +73,12 @@ require 'pry'
       @inventory = {}
     end
 
+    def has_item(item)
+      @inventory.include?(item)
+    end
+
     def add_to_inventory(item)
-      @inventory[item] ? @inventory[item] += 1 : @inventory[item] = 1
+      has_item(item) ? @inventory[item] += 1 : @inventory[item] = 1
       puts "#{item.capitalize} has been added to your inventory."
     end
 
