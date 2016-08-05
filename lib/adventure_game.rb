@@ -186,9 +186,20 @@ require 'pry'
     end
 
     def use(item)
-      effect = current_room.items.select { |i| i.name == item }.first.effects
-      puts effect
-      @player.remove_from_inventory(item)
+      # TODO: figure out how to pass around entire item object to access effects anywhere
+      if @player.has_item(item) && current_room.npc && current_room.npc.has_item(item)
+        effect = current_room.npc.inventory.effects
+        puts effect
+        @player.remove_from_inventory(item)
+        # TODO: eventually remove from NPC inventory & change ownership of item
+      elsif @player.has_item(item) && current_room.has_item(item)
+        effect = current_room.items.select { |i| i.name == item }.first.effects
+        puts effect
+        @player.remove_from_inventory(item)
+        # TODO: eventually remove from Room inventory & change ownership of item
+      else
+        puts "Sorry, that item is not in your inventory. Did you pick it up or try taking it from someone?"
+      end
     end
 
     def talk
