@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-#![feature(question_mark)]
+//#![feature(question_mark)]
 
 use std::collections::HashMap;
 use std::cmp::max;
@@ -10,14 +10,33 @@ pub type StringLiteral = &'static str;
 #[derive(Debug, Eq, PartialEq)]
 struct Player {
     name: StringLiteral,
+    inventory: Vec<InventoryItem>,
     location: Location
 }
 
 impl Player {
-    fn new(name: StringLiteral, x: u64, y: u64) -> Player {
+    fn new(name: StringLiteral, inventory: Vec<InventoryItem>, x: u64, y: u64) -> Player {
         Player {
             name: name,
+            inventory: inventory,
             location: Location { x: x, y: y }
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct InventoryItem {
+    count: u64,
+    name: String,
+    effects: String
+}
+
+impl InventoryItem {
+    fn new(count: u64, name: String, effects: String) -> InventoryItem {
+        InventoryItem {
+            count: count,
+            name: name,
+            effects: effects
         }
     }
 }
@@ -126,7 +145,7 @@ impl Map {
             east: l.x < self.max_x,
             west: l.x > 0
         }
-    }    
+    }
 }
 
 impl fmt::Display for Map {
@@ -176,7 +195,7 @@ fn main() {
     ];
 
     let map = Map::new("Liz's Great Adventure", rooms);
-    let player = Player::new("Liz", 1, 1);
+    let player = Player::new("Liz", vec![], 1, 1);
 
     println!("{:?}", map);
     println!("{:?}", player);
@@ -185,7 +204,7 @@ fn main() {
 // cfg(test) means only include this code when compiling for test mode
 #[cfg(test)]
 mod tests {       // this is a nested module
-    use super::*; // include all the public items from the parent module 
+    use super::*; // include all the public items from the parent module
 
     // helper function for constructing a 3x3 list of rooms for testing
     fn rooms() -> Vec<Room> {
@@ -232,7 +251,7 @@ mod tests {       // this is a nested module
             north: true,
             south: false,
             east: true,
-            west: false 
+            west: false
         });
     }
 
@@ -255,7 +274,7 @@ mod tests {       // this is a nested module
             north: false,
             south: true,
             east: false,
-            west: true 
+            west: true
         });
     }
 
@@ -269,7 +288,7 @@ mod tests {       // this is a nested module
             north: false,
             south: true,
             east: false,
-            west: true 
+            west: true
         });
     }
 }
