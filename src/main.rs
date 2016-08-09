@@ -66,17 +66,27 @@ impl Location {
 // We want to be able to debug Room and `==` it.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Room {
-    location: Location,   // it has a Location
-    description: String,  // it has a description
+    location: Location,        // it has a Location
+    name: String,              // it has a name
+    description: String,       // it has a description
+    items: Vec<InventoryItem>, // it has items/inventory (may be empty)
+    npc: NPC                   // it may have an NPC / non-player character
 }
 
 impl Room {
     // As in Ruby, we make Room::new take an x, y and description,
     // and construct a Location using the x and y.
-    fn new(x: u64, y: u64, description: String) -> Room { // returns a Room
+    fn new(x: u64, y: u64, name: String, description: String, items: Vec<InventoryItem>, npc: NPC) -> Room { // returns a Room
         Room { // Construct a Room
             location: Location::new(x, y),  // construct a Location
+            name: name,                     // save the name
             description: description,       // save the description
+            items: items,                   // save the inventory
+            npc: npc                        // save the NPC
+        }
+    }
+}
+
         }
     }
 }
