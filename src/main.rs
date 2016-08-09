@@ -87,6 +87,20 @@ impl Room {
     }
 }
 
+// a non-player character
+#[derive(Debug, Eq, PartialEq)]
+pub struct NPC {
+    name: String,
+    inventory: Vec<InventoryItem>,
+    dialogue: String
+}
+
+impl NPC {
+    fn new(name: String, inventory: Vec<InventoryItem>, dialogue: String) -> NPC {
+        NPC {
+            name: name,
+            inventory: inventory,
+            dialogue: dialogue
         }
     }
 }
