@@ -203,19 +203,19 @@ impl fmt::Display for Map {
 
 // A helper function for easily contructing a room to pass to Map::new.
 // Used below in tests.
-pub fn room(x: u64, y: u64, desc: StringLiteral) -> Room {
+pub fn room(x: u64, y: u64, name: StringLiteral, desc: StringLiteral, items: Vec<InventoryItem>, npc: NPC) -> Room {
     // In Rust, string literals are "slices", which means they are
     // shared, but we want an owned String. We can use to_string()
     // to copy the StringLiteral into something we can own.
-    Room::new(x, y, desc.to_string())
+    Room::new(x, y, name.to_string(), desc.to_string(), items, npc)
 }
 
 fn main() {
     // vec![] is the Array literal syntax in Rust.
     let rooms = vec![
-        room(0, 2, "top left"),    room(1, 2, "top center"),    room(2, 2, "top right"),
-        room(0, 1, "middle left"), room(1, 1, "middle center"), room(2, 1, "middle right"),
-        room(0, 0, "bottom left"), room(1, 0, "bottom center"), room(2, 0, "bottom right")
+        room(0, 2, "top left", "room one", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())),    room(1, 2, "top center", "room two", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())),    room(2, 2, "top right", "room three", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())),
+        room(0, 1, "middle left", "room four", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())), room(1, 1, "middle center", "room five", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())), room(2, 1, "middle right", "room six", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())),
+        room(0, 0, "bottom left", "room seven", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())), room(1, 0, "bottom center", "room eight", vec![], NPC::new("George".to_string(), vec![], "hi".to_string())), room(2, 0, "bottom right", "room nine", vec![], NPC::new("George".to_string(), vec![], "hi".to_string()))
     ];
 
     let map = Map::new("Liz's Great Adventure", rooms);
