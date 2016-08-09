@@ -25,7 +25,7 @@ impl Player {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-struct InventoryItem {
+pub struct InventoryItem {
     count: u64,
     name: String,
     effects: String
