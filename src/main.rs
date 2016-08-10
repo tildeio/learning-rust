@@ -4,18 +4,28 @@
 use std::collections::HashMap;
 use std::cmp::max;
 use std::fmt;
+use std::io;
 
 pub type StringLiteral = &'static str;
 
 #[derive(Debug, Eq, PartialEq)]
 struct Player {
-    name: StringLiteral,
+    name: String,
     inventory: Vec<InventoryItem>,
     location: Location
 }
 
 impl Player {
-    fn new(name: StringLiteral, inventory: Vec<InventoryItem>, x: u64, y: u64) -> Player {
+    fn new(inventory: Vec<InventoryItem>, x: u64, y: u64) -> Player {
+        // get user input an assign the input to `name`
+        println!("What's your name?");
+
+        let mut name = String::new();
+
+        io::stdin().read_line(&mut name)
+            .expect("Could not read line");
+
+
         Player {
             name: name,
             inventory: inventory,
@@ -237,8 +247,9 @@ fn main() {
     ];
 
     let map = Map::new("Liz's Great Adventure", rooms);
-    let player = Player::new("Liz", vec![], 1, 1);
+    let player = Player::new(vec![], 1, 1);
 
+    println!("Hi {}Welcome to the game.", player.name);
     println!("{:?}", map);
     println!("{:?}", player);
 }
