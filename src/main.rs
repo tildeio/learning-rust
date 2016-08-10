@@ -105,6 +105,24 @@ impl NPC {
     }
 }
 
+// where most player console interactions and game loop will be defined
+#[derive(Debug, Eq, PartialEq)]
+pub struct Game {
+   player: Player,
+   map: Map,
+   playing: bool
+}
+
+impl Game {
+    fn new(player: Player, map: Map, playing: bool) -> Game {
+        Game {
+            player: player,
+            map: map,
+            playing: playing
+        }
+    }
+}
+
 // We want to be able to debug Room and `==` it.
 #[derive(Debug, Eq, PartialEq)]
 pub struct Map {
