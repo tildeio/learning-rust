@@ -125,6 +125,7 @@ pub struct Game {
 
 impl Game {
     fn new(player: Player, map: Map, playing: bool) -> Game {
+        println!("Hi {}Welcome to {}", player.name, map.title);
         Game {
             player: player,
             map: map,
@@ -249,9 +250,7 @@ fn main() {
     let map = Map::new("Liz's Great Adventure", rooms);
     let player = Player::new(vec![], 1, 1);
 
-    println!("Hi {}Welcome to the game.", player.name);
-    println!("{:?}", map);
-    println!("{:?}", player);
+    Game::new(player, map, true);
 }
 
 // cfg(test) means only include this code when compiling for test mode
