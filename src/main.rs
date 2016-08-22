@@ -132,6 +132,28 @@ impl Game {
             playing: playing
         }
     }
+
+    fn play(&mut self) {
+        self.map.display_map();
+        println!("What would you like to do?");
+        self.parse_choice();
+        //while playing {
+          //  println!("What now?");
+          //  parse_choice(user_input);
+        //}
+    }
+
+    fn parse_choice(&mut self) {
+        let mut user_input = String::new();
+
+        io::stdin().read_line(&mut user_input)
+            .expect("Could not read line");
+        // we want to take user_input and check if
+        // it's a valid choice. If so, we want to call
+        // the associated method
+        let mut split_input = user_input.split_whitespace();
+        println!("{}", split_input.to_string());
+    }
 }
 
 // We want to be able to debug Room and `==` it.
@@ -199,6 +221,10 @@ impl Map {
             west: l.x > 0
         }
     }
+
+    fn display_map(&self) {
+      println!("{}", self);
+    }
 }
 
 impl fmt::Display for Map {
@@ -248,9 +274,10 @@ fn main() {
     ];
 
     let map = Map::new("Liz's Great Adventure", rooms);
-    let player = Player::new(vec![], 1, 1);
+    let mut player = Player::new(vec![], 1, 1);
+    let mut game = Game::new(player, map, true);
 
-    Game::new(player, map, true);
+    game.play();
 }
 
 // cfg(test) means only include this code when compiling for test mode
