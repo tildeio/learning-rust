@@ -119,6 +119,10 @@ require 'pry'
   end
 
   class Game
+    def self.play
+      Game.new.tap(&:play)
+    end
+
     def initialize
       @valid_choices = [
         :help,
@@ -139,7 +143,6 @@ require 'pry'
       @player = Player.new
       @playing = true
       @map = Map.new("Adventure Game", rooms, @player)
-      play
     end
 
     def play
@@ -477,4 +480,4 @@ require 'pry'
   end
 end
 
-AdventureGame::Game.new
+AdventureGame::Game.play
