@@ -1,11 +1,8 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+    "rust.checkWith": "clippy",
+    "rust.formatOnSave": true,
     "rust.checkOnSave": true,
-    "rust.formatOnSave": false,
-    // "rust.rustLangSrcPath": "/Users/engineering/Code/rust/src",
-    // "rust.cargoHomePath": "/Users/engineering/.cargo",
-    // "rust.cargoPath": "/Users/engineering/.cargo/bin/cargo",
-    // "rust.racerPath": "/Users/engineering/.cargo/bin/racer",
-    // "rust.rustfmtPath": "/Users/engineering/.cargo/bin/rustfmt",
-    "rust.checkWith": "clippy"
+    "rust.rustLangSrcPath": "/Users/engineering/Code/rust/src",
+    "rust.useNewErrorFormat": true
 }
