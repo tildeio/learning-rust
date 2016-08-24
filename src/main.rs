@@ -159,12 +159,13 @@ impl Game {
         // }
     }
 
-    fn current_room(&self) -> &Room {
-        for &(location,room) in &self.map.rooms {
-            if location == &self.player.location {
-                return room;
+    fn current_room(&self) -> Option<&Room> {
+        for room_tup in &self.map.rooms {
+            if room_tup.0 == &self.player.location {
+                return Some(room_tup.1);
             }
         }
+        None
     }
 
     fn parse_choice(&mut self) {
@@ -198,12 +199,12 @@ impl Game {
     // MOVES //
 
     fn look_around(&self) {
-        println!("{:?}", &self.current_room().description);
-        if !&self.player.inventory.is_empty() {
-            println!("This room contains {:?}", &self.player.inventory);
+        println!("{:?}", &self.current_room().unwrap().description);
+        if !&self.current_room().unwrap().items.is_empty() {
+            println!("This room contains: {:?}", &self.current_room().unwrap().items);
         }
-        if &self.current_room().npc != None {
-            println!("{:?} is here too!", &self.current_room().npc.name);
+        if self.current_room() != None {
+            println!("{:?} is here too!", &self.current_room().unwrap().npc.name);
         }
     }
 }
