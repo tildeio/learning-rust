@@ -181,6 +181,16 @@ impl Game {
             self.look_around();
         } else if user_input == "talk" {
             self.talk();
+        } else if user_input == "help" {
+            println!("exit: exit the game");
+            println!("north, south, east, west: move in this direction");
+            println!("look around: see a description of the current room");
+            println!("pick up _item_: add the item to your inventory");
+            println!("take _item_: take an item from an NPC");
+            println!("use _item_: use an item in your inventory");
+            println!("talk: talk to an NPC");
+            println!("display map: look at map");
+            println!("print inventory: show current player inventory");
         } else if let Some(captures) = regex("(?i)^pick up (?P<thing>.*)").captures(user_input) {
             println!("Was pick up '{}'", captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
