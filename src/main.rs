@@ -199,13 +199,14 @@ impl Game {
     // MOVES //
 
     fn look_around(&self) {
+        // display the current room's description
         println!("{:?}", &self.current_room().unwrap().description);
+        // if the room has any items, display information about them
         if !&self.current_room().unwrap().items.is_empty() {
             println!("This room contains: {:?}", &self.current_room().unwrap().items);
         }
-        if self.current_room() != None {
-            println!("{:?} is here too!", &self.current_room().unwrap().npc.name);
-        }
+        // display information about the room's NPC
+        println!("{:?} is here too!", &self.current_room().unwrap().npc.name);
     }
 }
 
@@ -333,55 +334,55 @@ fn main() {
     let rooms = vec![room(0,
                           2,
                           "top left",
-                          "room one",
+                          "this is room one",
                           vec![],
                           NPC::new("George".to_string(), vec![], "hi I'm George".to_string())),
                      room(1,
                           2,
                           "top center",
-                          "room two",
+                          "this is room two",
                           vec![],
                           NPC::new("Mike".to_string(), vec![], "hi I'm Mike".to_string())),
                      room(2,
                           2,
                           "top right",
-                          "room three",
+                          "this is room three",
                           vec![],
                           NPC::new("Helen".to_string(), vec![], "hi I'm Helen".to_string())),
                      room(0,
                           1,
                           "middle left",
-                          "room four",
+                          "this is room four",
                           vec![],
                           NPC::new("Linda".to_string(), vec![], "hi I'm Linda".to_string())),
                      room(1,
                           1,
                           "middle center",
-                          "room five",
+                          "this is room five",
                           vec![],
                           NPC::new("Prudence".to_string(), vec![], "hi I'm Prudence".to_string())),
                      room(2,
                           1,
                           "middle right",
-                          "room six",
+                          "this is room six",
                           vec![],
                           NPC::new("Fred".to_string(), vec![], "hi I'm Fred".to_string())),
                      room(0,
                           0,
                           "bottom left",
-                          "room seven",
+                          "this is room seven",
                           vec![],
                           NPC::new("Crocodile Man".to_string(), vec![], "hi I'm Crocodile Man".to_string())),
                      room(1,
                           0,
                           "bottom center",
-                          "room eight",
+                          "this is room eight",
                           vec![],
                           NPC::new("Crocodile Woman".to_string(), vec![], "hi I'm Crocodile Woman".to_string())),
                      room(2,
                           0,
                           "bottom right",
-                          "room nine",
+                          "this is room nine",
                           vec![],
                           NPC::new("Cool Unicorn".to_string(), vec![], "hi I'm Cool Unicorn".to_string()))];
 
