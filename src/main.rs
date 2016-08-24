@@ -179,6 +179,8 @@ impl Game {
 
         if user_input == "look around" {
             self.look_around();
+        } else if user_input == "talk" {
+            self.talk();
         } else if let Some(captures) = regex("(?i)^pick up (?P<thing>.*)").captures(user_input) {
             println!("Was pick up '{}'", captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
@@ -207,6 +209,10 @@ impl Game {
         }
         // display information about the room's NPC
         println!("{:?} is here too!", &self.current_room().unwrap().npc.name);
+    }
+
+    fn talk(&self) {
+        println!("{:?}", &self.current_room().unwrap().npc.dialogue);
     }
 }
 
