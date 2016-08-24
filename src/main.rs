@@ -34,6 +34,14 @@ impl Player {
             location: Location { x: x, y: y },
         }
     }
+
+    fn print_inventory(&self) {
+        if self.inventory.is_empty() {
+            println!("Oops! You don't have any items. Why not take a look around?");
+        } else {
+            println!("{:?}", self.inventory);
+        }
+    }
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -150,13 +158,8 @@ impl Game {
     }
 
     fn play(&mut self) {
-        self.map.display_map();
         println!("What would you like to do?");
         self.parse_choice();
-        // while playing {
-        //  println!("What now?");
-        //  parse_choice(user_input);
-        // }
     }
 
     fn current_room(&self) -> Option<&Room> {
@@ -181,6 +184,13 @@ impl Game {
             self.look_around();
         } else if user_input == "talk" {
             self.talk();
+        } else if user_input == "display map" {
+            self.map.display_map();
+        } else if user_input == "print inventory" {
+            self.player.print_inventory();
+        } else if user_input == "exit" {
+            println!("Thanks for playing!");
+            self.playing = false;
         } else if user_input == "help" {
             println!("exit: exit the game");
             println!("north, south, east, west: move in this direction");
@@ -200,29 +210,23 @@ impl Game {
             let split_input = user_input.split_whitespace();
             println!("{:?}", split_input.collect::<Vec<&str>>());
         }
-
-        // we want to take user_input and check if
-        // it's a valid choice. If so, we want to call
-        // the associated method
-        // let split_input = user_input.split_whitespace();
-        // println!("{}", split_input.collect::<String>());
     }
 
     // MOVES //
 
     fn look_around(&self) {
         // display the current room's description
-        println!("{:?}", &self.current_room().unwrap().description);
+        println!("{}", &self.current_room().unwrap().description);
         // if the room has any items, display information about them
         if !&self.current_room().unwrap().items.is_empty() {
             println!("This room contains: {:?}", &self.current_room().unwrap().items);
         }
         // display information about the room's NPC
-        println!("{:?} is here too!", &self.current_room().unwrap().npc.name);
+        println!("{} is here too!", &self.current_room().unwrap().npc.name);
     }
 
     fn talk(&self) {
-        println!("{:?}", &self.current_room().unwrap().npc.dialogue);
+        println!("{}", &self.current_room().unwrap().npc.dialogue);
     }
 }
 
@@ -297,7 +301,11 @@ impl Map {
     }
 
     fn display_map(&self) {
-        println!("{}", self);
+        println!("Possible Destinations for {}", self.title);
+        println!("{:=<1$}", "", self.title.len());
+        for room_info in &self.rooms {
+            println!("{}", room_info.1.name);
+        }
     }
 }
 
@@ -406,7 +414,9 @@ fn main() {
     let player = Player::new(vec![], 1, 1);
     let mut game = Game::new(player, map, true);
 
-    game.play();
+    while game.playing == true {
+        game.play();
+    }
 }
 
 // cfg(test) means only include this code when compiling for test mode
