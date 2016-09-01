@@ -14,7 +14,8 @@ pub type StringLiteral = &'static str;
 #[derive(Debug, Eq, PartialEq)]
 struct Player {
     name: String,
-    inventory: Vec<InventoryItem>,location: Location,
+    inventory: Vec<InventoryItem>,
+    location: Location,
 }
 
 impl Player {
@@ -41,6 +42,10 @@ impl Player {
         } else {
             println!("{:?}", self.inventory);
         }
+    }
+
+    fn add_to_inventory(&mut self, item: InventoryItem) {
+        self.inventory.push(item);
     }
 }
 
@@ -162,7 +167,7 @@ impl Game {
         self.parse_choice();
     }
 
-    fn current_room(&self) -> Option<&Room> {
+    fn current_room(&mut self) -> Option<&Room> {
         for room_tup in &self.map.rooms {
             if room_tup.0 == &self.player.location {
                 return Some(room_tup.1);
@@ -202,9 +207,11 @@ impl Game {
             println!("display map: look at map");
             println!("print inventory: show current player inventory");
         } else if let Some(captures) = regex("(?i)^pick up (?P<thing>.*)").captures(user_input) {
-            println!("Was pick up '{}'", captures.name("thing").expect("unexpected optional capture"));
+            self.pick_up(captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
             println!("Was take '{}'", captures.name("thing").expect("unexpected optional capture"));
+        } else if let Some(captures) = regex("(?i)^use (?P<thing>.*)").captures(user_input) {
+            println!("Was use '{}'", captures.name("thing").expect("unexpected optional capture"));
         } else {
             println!("{:?}", user_input);
             let split_input = user_input.split_whitespace();
@@ -213,6 +220,27 @@ impl Game {
     }
 
     // MOVES //
+
+    fn string_to_inventory_item(&mut self, item: &str) -> Option<InventoryItem> {
+        let mut i = 0;
+        for thing in &self.current_room().unwrap().items {
+            if thing.count > 0 && thing.name == item {
+                println!("{:?}", thing);
+                Some(&self.current_room().unwrap().items.remove(i));
+            }
+            i += 1;
+        }
+        if self.current_room().unwrap().items.is_empty() {
+            println!("Nothing here! Try another room");
+        }
+        None
+    }
+
+    fn pick_up(&mut self, item: &str) {
+        println!("picking up");
+        let added_item = self.string_to_inventory_item(item).unwrap();
+        self.player.add_to_inventory(added_item);
+    }
 
     fn look_around(&self) {
         // display the current room's description
@@ -302,7 +330,7 @@ impl Map {
 
     fn display_map(&self) {
         println!("Possible Destinations for {}", self.title);
-        println!("{:=<1$}", "", self.title.len());
+        println!("{:=<1$}", "", self.title.len() + 26);
         for room_info in &self.rooms {
             println!("{}", room_info.1.name);
         }
@@ -359,55 +387,55 @@ fn main() {
                           2,
                           "top left",
                           "this is room one",
-                          vec![],
+                          vec![InventoryItem::new(1, "cool potion".to_string(), "this potion has turned you into a C00L d00d!".to_string())],
                           NPC::new("George".to_string(), vec![], "hi I'm George".to_string())),
                      room(1,
                           2,
                           "top center",
                           "this is room two",
-                          vec![],
+                          vec![InventoryItem::new(1, "dumb potion".to_string(), "this potion has turned you into a dumbb d00d!".to_string())],
                           NPC::new("Mike".to_string(), vec![], "hi I'm Mike".to_string())),
                      room(2,
                           2,
                           "top right",
                           "this is room three",
-                          vec![],
+                          vec![InventoryItem::new(1, "stinky potion".to_string(), "this potion has turned you into a stinky d00d!".to_string())],
                           NPC::new("Helen".to_string(), vec![], "hi I'm Helen".to_string())),
                      room(0,
                           1,
                           "middle left",
                           "this is room four",
-                          vec![],
+                          vec![InventoryItem::new(1, "charming potion".to_string(), "this potion has turned you into a charming d00d!".to_string())],
                           NPC::new("Linda".to_string(), vec![], "hi I'm Linda".to_string())),
                      room(1,
                           1,
                           "middle center",
                           "this is room five",
-                          vec![],
+                          vec![InventoryItem::new(1, "dog potion".to_string(), "this potion has turned you into a C00L d0g!".to_string())],
                           NPC::new("Prudence".to_string(), vec![], "hi I'm Prudence".to_string())),
                      room(2,
                           1,
                           "middle right",
                           "this is room six",
-                          vec![],
+                          vec![InventoryItem::new(1, "barfing potion".to_string(), "this potion has turned you into a barfing d00d!".to_string())],
                           NPC::new("Fred".to_string(), vec![], "hi I'm Fred".to_string())),
                      room(0,
                           0,
                           "bottom left",
                           "this is room seven",
-                          vec![],
+                          vec![InventoryItem::new(1, "hungry potion".to_string(), "this potion has turned you into a hungry d00d!".to_string())],
                           NPC::new("Crocodile Man".to_string(), vec![], "hi I'm Crocodile Man".to_string())),
                      room(1,
                           0,
                           "bottom center",
                           "this is room eight",
-                          vec![],
+                          vec![InventoryItem::new(1, "cute potion".to_string(), "this potion has turned you into a cute d00d!".to_string())],
                           NPC::new("Crocodile Woman".to_string(), vec![], "hi I'm Crocodile Woman".to_string())),
                      room(2,
                           0,
                           "bottom right",
                           "this is room nine",
-                          vec![],
+                          vec![InventoryItem::new(1, "tall potion".to_string(), "this potion has turned you into a tall d00d!".to_string())],
                           NPC::new("Cool Unicorn".to_string(), vec![], "hi I'm Cool Unicorn".to_string()))];
 
     let map = Map::new("Liz's Great Adventure", rooms);
