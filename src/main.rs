@@ -118,6 +118,14 @@ impl Room {
             npc: npc, // save the NPC
         }
     }
+
+    fn items(&self) -> &[InventoryItem] {
+        &self.items[..]
+    }
+
+    fn items_mut(&mut self) -> &mut Vec<InventoryItem> {
+        &mut self.items
+    }
 }
 
 // a non-player character
@@ -167,13 +175,12 @@ impl Game {
         self.parse_choice();
     }
 
-    fn current_room(&mut self) -> Option<&Room> {
-        for room_tup in &self.map.rooms {
-            if room_tup.0 == &self.player.location {
-                return Some(room_tup.1);
-            }
-        }
-        None
+    fn current_room(&self) -> &Room {
+        self.map.rooms.get(&self.player.location).expect("BUG: The player's location must exist in the map")
+    }
+
+    fn current_room_mut(&mut self) -> &mut Room {
+        self.map.rooms.get_mut(&self.player.location).expect("BUG: The player's location must exist in the map")
     }
 
     fn parse_choice(&mut self) {
@@ -222,39 +229,35 @@ impl Game {
     // MOVES //
 
     fn string_to_inventory_item(&mut self, item: &str) -> Option<InventoryItem> {
-        let mut i = 0;
-        for thing in &self.current_room().unwrap().items {
-            if thing.count > 0 && thing.name == item {
-                println!("{:?}", thing);
-                Some(&self.current_room().unwrap().items.remove(i));
-            }
-            i += 1;
-        }
-        if self.current_room().unwrap().items.is_empty() {
-            println!("Nothing here! Try another room");
-        }
-        None
+        let items = self.current_room_mut().items_mut();
+
+        items.iter()
+            .position(|thing| item == thing.name)
+            .map(|i| items.remove(i))
     }
 
-    fn pick_up(&mut self, item: &str) {
+    fn pick_up(&mut self, item_name: &str) {
         println!("picking up");
-        let added_item = self.string_to_inventory_item(item).unwrap();
-        self.player.add_to_inventory(added_item);
+
+        match self.string_to_inventory_item(item_name) {
+            Some(item) => { self.player.add_to_inventory(item); }
+            None => println!("Sorry, {} wasn't found in the current room", item_name) 
+        };
     }
 
     fn look_around(&self) {
         // display the current room's description
-        println!("{}", &self.current_room().unwrap().description);
+        println!("{}", &self.current_room().description);
         // if the room has any items, display information about them
-        if !&self.current_room().unwrap().items.is_empty() {
-            println!("This room contains: {:?}", &self.current_room().unwrap().items);
+        if !&self.current_room().items.is_empty() {
+            println!("This room contains: {:?}", &self.current_room().items);
         }
         // display information about the room's NPC
-        println!("{} is here too!", &self.current_room().unwrap().npc.name);
+        println!("{} is here too!", &self.current_room().npc.name);
     }
 
     fn talk(&self) {
-        println!("{}", &self.current_room().unwrap().npc.dialogue);
+        println!("{}", &self.current_room().npc.dialogue);
     }
 }
 
@@ -442,7 +445,7 @@ fn main() {
     let player = Player::new(vec![], 1, 1);
     let mut game = Game::new(player, map, true);
 
-    while game.playing == true {
+    while game.playing {
         game.play();
     }
 }
