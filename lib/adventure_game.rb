@@ -168,7 +168,7 @@ require 'pry'
 
     # use with NPCs
     def take(item)
-      if current_room.npc.has_item(item)
+      if current_room.npc && current_room.npc.has_item(item)
         @player.add_to_inventory(item)
       else
         puts "Sorry, that item isn't here."
