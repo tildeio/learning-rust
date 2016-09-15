@@ -45,6 +45,7 @@ impl Player {
     }
 
     fn add_to_inventory(&mut self, item: InventoryItem) {
+        println!("{} has been added to your inventory!", item.name);
         self.inventory.push(item);
     }
 }
@@ -126,6 +127,14 @@ impl Room {
     fn items_mut(&mut self) -> &mut Vec<InventoryItem> {
         &mut self.items
     }
+
+    fn npc(&self) -> &NPC {
+        &self.npc
+    }
+
+    fn npc_mut(&mut self) -> &mut NPC {
+        &mut self.npc
+    }
 }
 
 // a non-player character
@@ -143,6 +152,14 @@ impl NPC {
             inventory: inventory,
             dialogue: dialogue,
         }
+    }
+
+    fn inventory(&self) -> &[InventoryItem] {
+        &self.inventory[..]
+    }
+
+    fn inventory_mut(&mut self) -> &mut Vec<InventoryItem> {
+        &mut self.inventory
     }
 }
 
@@ -216,7 +233,7 @@ impl Game {
         } else if let Some(captures) = regex("(?i)^pick up (?P<thing>.*)").captures(user_input) {
             self.pick_up(captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
-            println!("Was take '{}'", captures.name("thing").expect("unexpected optional capture"));
+            self.take(captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^use (?P<thing>.*)").captures(user_input) {
             println!("Was use '{}'", captures.name("thing").expect("unexpected optional capture"));
         } else {
@@ -236,13 +253,26 @@ impl Game {
             .map(|i| items.remove(i))
     }
 
-    fn pick_up(&mut self, item_name: &str) {
-        println!("picking up");
+    fn string_to_npc_item(&mut self, item_name: &str) -> Option<InventoryItem> {
+        let npc_inventory = self.current_room_mut().npc_mut().inventory_mut();
 
+        npc_inventory.iter()
+            .position(|thing| item_name == thing.name)
+            .map(|i| npc_inventory.remove(i))
+    }
+
+    fn pick_up(&mut self, item_name: &str) {
         match self.string_to_inventory_item(item_name) {
             Some(item) => { self.player.add_to_inventory(item); }
             None => println!("Sorry, {} wasn't found in the current room", item_name) 
         };
+    }
+
+    fn take(&mut self, item_name: &str) {
+        match self.string_to_npc_item(item_name) {
+            Some(item) => { self.player.add_to_inventory(item); }
+            None => println!("Sorry, {} doesn't have {}.", self.current_room().npc().name, item_name)
+        }
     }
 
     fn look_around(&self) {
@@ -254,6 +284,10 @@ impl Game {
         }
         // display information about the room's NPC
         println!("{} is here too!", &self.current_room().npc.name);
+
+        if !&self.current_room().npc().inventory.is_empty() {
+            println!("{} has {:?}.", &self.current_room().npc.name, &self.current_room().npc.inventory)
+        }
     }
 
     fn talk(&self) {
@@ -415,7 +449,7 @@ fn main() {
                           "middle center",
                           "this is room five",
                           vec![InventoryItem::new(1, "dog potion".to_string(), "this potion has turned you into a C00L d0g!".to_string())],
-                          NPC::new("Prudence".to_string(), vec![], "hi I'm Prudence".to_string())),
+                          NPC::new("Prudence".to_string(), vec![InventoryItem::new(1, "potato chip potion".to_string(), "this potion has given you potato chips. You can't eat them, but they're there. LOOKING AT YOU.".to_string())], "hi I'm Prudence".to_string())),
                      room(2,
                           1,
                           "middle right",
