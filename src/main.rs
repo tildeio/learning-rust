@@ -48,6 +48,14 @@ impl Player {
         println!("{} has been added to your inventory!", item.name);
         self.inventory.push(item);
     }
+
+    fn inventory(&self) -> &[InventoryItem] {
+        &self.inventory[..]
+    }
+
+    fn inventory_mut(&mut self) -> &mut Vec<InventoryItem> {
+        &mut self.inventory
+    }
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -200,6 +208,14 @@ impl Game {
         self.map.rooms.get_mut(&self.player.location).expect("BUG: The player's location must exist in the map")
     }
 
+    fn player(&self) -> &Player {
+        &self.player
+    }
+
+    fn player_mut(&mut self) -> &mut Player {
+        &mut self.player
+    }
+
     fn parse_choice(&mut self) {
         let mut user_input = String::new();
 
@@ -235,7 +251,7 @@ impl Game {
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
             self.take(captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^use (?P<thing>.*)").captures(user_input) {
-            println!("Was use '{}'", captures.name("thing").expect("unexpected optional capture"));
+            self.use_item(captures.name("thing").expect("unexpected optional capture"));
         } else {
             println!("{:?}", user_input);
             let split_input = user_input.split_whitespace();
@@ -261,6 +277,14 @@ impl Game {
             .map(|i| npc_inventory.remove(i))
     }
 
+    fn string_to_player_item(&mut self, item_name: &str) -> Option<InventoryItem> {
+        let player_inventory = self.player_mut().inventory_mut();
+
+        player_inventory.iter()
+            .position(|thing| item_name == thing.name)
+            .map(|i| player_inventory.remove(i))
+    }
+
     fn pick_up(&mut self, item_name: &str) {
         match self.string_to_inventory_item(item_name) {
             Some(item) => { self.player.add_to_inventory(item); }
@@ -272,6 +296,13 @@ impl Game {
         match self.string_to_npc_item(item_name) {
             Some(item) => { self.player.add_to_inventory(item); }
             None => println!("Sorry, {} doesn't have {}.", self.current_room().npc().name, item_name)
+        }
+    }
+
+    fn use_item(&mut self, item_name: &str) {
+        match self.string_to_player_item(item_name) {
+            Some(item) => { println!("{}", item.effects) }
+            None => println!("Sorry, you don't have {} in your inventory.", item_name)
         }
     }
 
