@@ -2,13 +2,14 @@
 
 ### A text-based adventure game being built in Rust and Ruby (simultaneously)
 
-The Rust version of the game is still being built, but if you want to play the Ruby game:
+If you want to play it:
 
 1. clone this repository
 2. cd into it (i.e. enter `cd learning-rust` in your terminal)
-3. enter `ruby lib/adventure_game.rb` in your terminal and hit return
+3a. for the Ruby version: enter `ruby lib/adventure_game.rb` in your terminal and hit return
+3b: for the Rust version: enter `cargo run` in your terminal and hit return
 4. play :)
 
-The actual narrative of the story will change - currently it is very simplistic while we're building it. By September, it will be completely different, but if you *want* to play it right now, you can.
+The actual narrative still needs to be ported over & some prettifying still needs to happen, but you can play a super simplistic placeholder game right now.
 
-Rust side mostly built by @wycats (so far), Ruby side mostly built by @lizbaillie (so far).
+Built mostly by @lizbaillie with help from @wycats
