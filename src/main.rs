@@ -56,6 +56,14 @@ impl Player {
     fn inventory_mut(&mut self) -> &mut Vec<InventoryItem> {
         &mut self.inventory
     }
+
+    fn location(&self) -> &Location {
+        &self.location
+    }
+
+    fn location_mut(&mut self) -> &mut Location {
+        &mut self.location
+    }
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -238,7 +246,7 @@ impl Game {
             self.playing = false;
         } else if user_input == "help" {
             println!("exit: exit the game");
-            println!("north, south, east, west: move in this direction");
+            println!("move north, south, east, west: move in this direction");
             println!("look around: see a description of the current room");
             println!("pick up _item_: add the item to your inventory");
             println!("take _item_: take an item from an NPC");
@@ -252,6 +260,8 @@ impl Game {
             self.take(captures.name("thing").expect("unexpected optional capture"));
         } else if let Some(captures) = regex("(?i)^use (?P<thing>.*)").captures(user_input) {
             self.use_item(captures.name("thing").expect("unexpected optional capture"));
+        } else if let Some(captures) = regex("(?i)^move (?P<direction>.*)").captures(user_input) {
+            self.change_location(captures.name("direction").expect("unexpected optional capture"));
         } else {
             println!("{:?}", user_input);
             let split_input = user_input.split_whitespace();
@@ -303,6 +313,42 @@ impl Game {
         match self.string_to_player_item(item_name) {
             Some(item) => { println!("{}", item.effects) }
             None => println!("Sorry, you don't have {} in your inventory.", item_name)
+        }
+    }
+
+    fn change_location(&mut self, direction: &str) {
+        let valid_directions = self.map.valid_directions(&self.player().location());
+
+        if direction == "north" {
+            if valid_directions.north {
+                self.player_mut().location_mut().y += 1;
+                println!("You have moved north.");
+            } else {
+                println!("You can not go north. Try a different direction.");
+            }
+        } else if direction == "south" {
+            if valid_directions.south {
+                self.player_mut().location_mut().y -= 1;
+                println!("You have moved south.");
+            } else {
+                println!("You can not go south. Try a different direction.");
+            }
+        } else if direction == "west" {
+            if valid_directions.west {
+                println!("You have moved west.");
+                self.player_mut().location_mut().x -= 1;
+            } else {
+                println!("You can not go west. Try a different direction.");
+            }
+        } else if direction == "east" {
+            if valid_directions.east {
+                println!("You have moved east.");
+                self.player_mut().location_mut().x += 1;
+            } else {
+                println!("You can not go north. Try a different direction.");
+            }
+        } else {
+            println!("That is not a valid direction. Try north, south, east, or west.");
         }
     }
 
