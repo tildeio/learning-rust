@@ -83,7 +83,7 @@ fn main() {
                           vec![inventory_item::InventoryItem::new(1, "tall potion".to_string(), "this potion has turned you into a tall d00d!".to_string())],
                           npc::NPC::new("Cool Unicorn".to_string(), vec![], "hi I'm Cool Unicorn".to_string()))];
 
-    let map = map::Map::new("Liz's Great Adventure", rooms);
+    let map = map::Map::new("THE UNOFFICIAL ADVENTURE SURVIVAL GUIDE FOR NEW RUSTACEANS (and natives of Rubyville)", rooms);
     let player = player::Player::new(vec![], 1, 1);
     let mut game = game::Game::new(player, map, true);
 
