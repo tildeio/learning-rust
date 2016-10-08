@@ -23,6 +23,7 @@ impl Game {
 
     pub fn new(player: Player, map: Map, playing: bool) -> Game {
         println!("Hi {}Welcome to {}", player.name, map.title);
+		println!("What would you like to do? (Enter 'help' to see a list of commands)");
 
         Game {
             player: player,
@@ -126,7 +127,7 @@ impl Game {
     fn pick_up(&mut self, item_name: &str) {
         match self.string_to_inventory_item(item_name) {
             Some(item) => { self.player.add_to_inventory(item); }
-            None => println!("Sorry, {} wasn't found in the current room", item_name) 
+            None => println!("Sorry, {} wasn't found in the current room", item_name)
         };
     }
 

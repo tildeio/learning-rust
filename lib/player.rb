@@ -5,21 +5,17 @@ class Player
     @location = Location.new(0,0)
     puts "What is your name?"
     @name = gets.chomp
-    @inventory = {}
-  end
-
-  def has_item(item)
-    @inventory.include?(item)
+    @inventory = []
   end
 
   def add_to_inventory(item)
-    has_item(item) ? @inventory[item] += 1 : @inventory[item] = 1
-    puts "#{item.capitalize} has been added to your inventory."
+    self.inventory.push(item)
+    puts "#{item.name.capitalize} has been added to your inventory."
   end
 
   def remove_from_inventory(item)
-    if @inventory[item] && @inventory[item] > 0
-      @inventory[item] -= 1
+    if @inventory.include?(item)
+      @inventory.
     else
       puts "Sorry, you don't have #{item}"
     end
