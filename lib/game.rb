@@ -37,17 +37,6 @@ class Game
     end
   end
 
-  # TODO: define win condition
-  def win
-    puts "Congratulations, #{@player.name}! You win."
-    @playing = false
-  end
-
-  # TODO: define lose condition
-  def lose
-    puts "Sorry, #{@player.name}. You lose. Better luck next time!"
-    @playing = false
-  end
 
   # use with NPCs
   def take(item)
