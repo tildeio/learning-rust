@@ -30,16 +30,16 @@ class Game
     puts "What would you like to do? (Enter 'help' to see a list of commands)"
     parse_choice(gets.chomp)
     while @playing
+      break if !@playing
       puts "What now?"
       choice = gets.chomp
       parse_choice(choice)
-      break if !@playing
     end
   end
 
 	private
 
-  # use with NPCs
+  # take item from an NPC
   def take(item_name)
     if current_room.npc && current_room.npc.has_item(item_name)
       item = current_room.npc.inventory.find { |i| i.name == item_name }
@@ -50,9 +50,10 @@ class Game
     end
   end
 
-  # use for items in a Room
-  def pick_up(item)
-    if current_room.has_item(item)
+  # take item from a Room
+  def pick_up(item_name)
+    if current_room.has_item(item_name)
+      item = current_room.items.find { |thing| thing.name == item_name }
       @player.add_to_inventory(item)
       current_room.remove_one(item)
     else
@@ -61,17 +62,17 @@ class Game
   end
 
 	# use an item from your inventory
-  def use(item)
+  def use(item_name)
     # TODO: figure out how to pass around entire item object to access effects anywhere
-    if @player.has_item(item) && current_room.npc && current_room.npc.has_item(item)
+    if @player.has_item(item_name) && current_room.npc && current_room.npc.has_item(item_name)
       effect = current_room.npc.inventory.effects
       puts effect
-      @player.remove_from_inventory(item)
+      @player.remove_from_inventory(item_name)
       # TODO: eventually remove from NPC inventory & change ownership of item
-    elsif @player.has_item(item) && current_room.has_item(item)
-      effect = current_room.items.select { |i| i.name == item }.first.effects
+    elsif @player.has_item(item_name) && current_room.has_item(item_name)
+      effect = current_room.items.find { |i| i.name == item_name }.effects
       puts effect
-      @player.remove_from_inventory(item)
+      @player.remove_from_inventory(item_name)
       # TODO: eventually remove from Room inventory & change ownership of item
     else
       puts "Sorry, that item is not in your inventory. Did you pick it up or try taking it from someone?"
@@ -169,8 +170,8 @@ class Game
   end
 
   def exit
-    @playing = false
     puts "Bye, #{@player.name}! Thanks for playing!"
+    abort
   end
 
   def rooms

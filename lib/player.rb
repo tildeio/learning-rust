@@ -8,6 +8,10 @@ class Player
     @inventory = []
   end
 
+  def has_item(item_name)
+    self.inventory.map(&:name).include?(item_name)
+  end
+
   def add_to_inventory(item)
     self.inventory.push(item)
     puts "#{item.name.capitalize} has been added to your inventory."
@@ -15,19 +19,20 @@ class Player
 
   def remove_from_inventory(item)
     if @inventory.include?(item)
-      @inventory.
+      index = @inventory.index(item)
+      @inventory.delete_at(index)
     else
-      puts "Sorry, you don't have #{item}"
+      puts "Sorry, you don't have #{item.name}"
     end
   end
 
   def print_inventory
-    if @inventory.keys.length > 0
+    if @inventory.length > 0
       puts "\n"
       puts "INVENTORY"
       puts "========="
-      @inventory.each_pair do |item, count|
-        puts "* #{item}: #{count}"
+      @inventory.each do |item|
+        puts "* #{item.name}: #{item.count}"
       end
       puts "\n"
     else
