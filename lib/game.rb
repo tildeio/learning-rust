@@ -173,8 +173,8 @@ class Game
   end
 
   def exit
-    @playing = false
     puts "Bye, #{@player.name}! Thanks for playing!"
+    abort
   end
 
   def rooms
