@@ -23,7 +23,6 @@ impl Game {
 
     pub fn new(player: Player, map: Map, playing: bool) -> Game {
         println!("Hi {}Welcome to {}", player.name, map.title);
-		println!("What would you like to do? (Enter 'help' to see a list of commands)");
 
         Game {
             player: player,
@@ -33,7 +32,7 @@ impl Game {
     }
 
     pub fn play(&mut self) {
-        println!("What would you like to do?");
+        println!("What would you like to do? (enter 'help' to see a list of commands)");
         self.parse_choice();
     }
 
