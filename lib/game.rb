@@ -17,7 +17,8 @@ class Game
       :use,
       :print_inventory,
       :talk,
-      :take
+      :take,
+      :move
     ]
 
     @player = Player.new
@@ -97,8 +98,8 @@ class Game
   def parse_choice(choice)
     new_choice = choice.split.join("_")
     valid_choice = @valid_choices.select { |entry| entry == new_choice.to_sym }.first
-    if [:north, :south, :east, :west].include?(valid_choice)
-      move(valid_choice)
+    if choice.include?('move') && valid_move(choice)
+      move(choice.split(' ').last.to_sym)
     elsif choice.include?('pick up')
       item = choice.split.select{ |item| item != 'pick' && item != 'up' }.join(' ')
       pick_up(item)
@@ -113,6 +114,12 @@ class Game
     else
       check_validity(new_choice.to_sym)
     end
+  end
+
+  # check that move is in a valid direction
+  def valid_move(user_input)
+    user_input.split(' ').first == 'move' &&
+      ['north','south', 'east', 'west'].include?(user_input.split(' ').last)
   end
 
 	# see all the rooms
@@ -254,10 +261,9 @@ class Game
     ]
   end
 
-  # TODO: refactor this like whoa, should work better with `parse_choice`
-  # should check if Player input is valid
+  # checks that Player input is valid
   def check_validity(choice)
-    valid_options = ['pick up', 'use', 'display inventory']
+    valid_options = ['pick up', 'use', 'display inventory', 'move']
     unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
       puts "That is not a valid choice. Try again."
     end
