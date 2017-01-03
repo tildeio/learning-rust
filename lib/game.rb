@@ -38,12 +38,15 @@ class Game
     end
   end
 
-	private
+  private
 
   # take item from an NPC
   def take(item_name)
     if current_room.npc && current_room.npc.has_item(item_name)
-      item = current_room.npc.inventory.find { |i| i.name == item_name }
+      # inventory should be an array and not an InventoryItem object
+      item = current_room.npc.inventory.name == item_name ? current_room.npc.inventory : nil
+      # how to remove inventory item from npc?
+      # not sure inventory is being created correctly
       npc_item = current_room.npc.inventory.pop(item)
       @player.add_to_inventory(npc_item)
     else
