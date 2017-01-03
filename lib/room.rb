@@ -29,13 +29,12 @@ class Room < Struct.new(:location, :name, :description, :items, :npc)
     item_names.include? item
   end
 
-  # TODO: doesn't work! have to figure out how to decrement item count
-  def remove_one(user_item)
-    selected_item = self.items.select { |item| item.name == user_item }.first
+  def remove_one(item)
+    room_item = self.items.find { |i| i == item }
     # can't remove an item that's not there
-    return if selected_item.count <= 0
-
-    selected_item.count -= 1
+    return if !room_item
+    index = self.items.index(room_item)
+    self.items.delete_at(index)
   end
 
   # puts-able list of items in Room

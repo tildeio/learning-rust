@@ -32,7 +32,7 @@ impl Game {
     }
 
     pub fn play(&mut self) {
-        println!("What would you like to do?");
+        println!("What would you like to do? (enter 'help' to see a list of commands)");
         self.parse_choice();
     }
 
@@ -126,7 +126,7 @@ impl Game {
     fn pick_up(&mut self, item_name: &str) {
         match self.string_to_inventory_item(item_name) {
             Some(item) => { self.player.add_to_inventory(item); }
-            None => println!("Sorry, {} wasn't found in the current room", item_name) 
+            None => println!("Sorry, {} wasn't found in the current room", item_name)
         };
     }
 

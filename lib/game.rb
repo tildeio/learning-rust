@@ -17,50 +17,47 @@ class Game
       :use,
       :print_inventory,
       :talk,
-      :take
+      :take,
+      :move
     ]
 
     @player = Player.new
     @playing = true
-    @map = Map.new("Adventure Game", rooms, @player)
+    @map = Map.new("Liz's Great Adventure", rooms, @player)
   end
 
   def play
-    @map.display_map
-    puts "Hi, #{@player.name}. What would you like to do?"
+		puts "Welcome to #{@map.title}"
+    puts "What would you like to do? (Enter 'help' to see a list of commands)"
     parse_choice(gets.chomp)
     while @playing
+      break if !@playing
       puts "What now?"
       choice = gets.chomp
       parse_choice(choice)
-      break if !@playing
     end
   end
 
-  # TODO: define win condition
-  def win
-    puts "Congratulations, #{@player.name}! You win."
-    @playing = false
-  end
+  private
 
-  # TODO: define lose condition
-  def lose
-    puts "Sorry, #{@player.name}. You lose. Better luck next time!"
-    @playing = false
-  end
-
-  # use with NPCs
-  def take(item)
-    if current_room.npc && current_room.npc.has_item(item)
-      @player.add_to_inventory(item)
+  # take item from an NPC
+  def take(item_name)
+    if current_room.npc && current_room.npc.has_item(item_name)
+      # inventory should be an array and not an InventoryItem object
+      item = current_room.npc.inventory.name == item_name ? current_room.npc.inventory : nil
+      # how to remove inventory item from npc?
+      # not sure inventory is being created correctly
+      npc_item = current_room.npc.inventory.pop(item)
+      @player.add_to_inventory(npc_item)
     else
       puts "Sorry, that item isn't here."
     end
   end
 
-  # use for items in a Room
-  def pick_up(item)
-    if current_room.has_item(item)
+  # take item from a Room
+  def pick_up(item_name)
+    if current_room.has_item(item_name)
+      item = current_room.items.find { |thing| thing.name == item_name }
       @player.add_to_inventory(item)
       current_room.remove_one(item)
     else
@@ -68,23 +65,25 @@ class Game
     end
   end
 
-  def use(item)
+	# use an item from your inventory
+  def use(item_name)
     # TODO: figure out how to pass around entire item object to access effects anywhere
-    if @player.has_item(item) && current_room.npc && current_room.npc.has_item(item)
+    if @player.has_item(item_name) && current_room.npc && current_room.npc.has_item(item_name)
       effect = current_room.npc.inventory.effects
       puts effect
-      @player.remove_from_inventory(item)
+      @player.remove_from_inventory(item_name)
       # TODO: eventually remove from NPC inventory & change ownership of item
-    elsif @player.has_item(item) && current_room.has_item(item)
-      effect = current_room.items.select { |i| i.name == item }.first.effects
+    elsif @player.has_item(item_name) && current_room.has_item(item_name)
+      effect = current_room.items.find { |i| i.name == item_name }.effects
       puts effect
-      @player.remove_from_inventory(item)
+      @player.remove_from_inventory(item_name)
       # TODO: eventually remove from Room inventory & change ownership of item
     else
       puts "Sorry, that item is not in your inventory. Did you pick it up or try taking it from someone?"
     end
   end
 
+	# talk to an NPC
   def talk
     if current_room.npc
       puts current_room.npc.dialogue[:default]
@@ -93,6 +92,7 @@ class Game
     end
   end
 
+	# print your inventory to the console
   def print_inventory
     @player.print_inventory
   end
@@ -101,8 +101,8 @@ class Game
   def parse_choice(choice)
     new_choice = choice.split.join("_")
     valid_choice = @valid_choices.select { |entry| entry == new_choice.to_sym }.first
-    if [:north, :south, :east, :west].include?(valid_choice)
-      move(valid_choice)
+    if choice.include?('move') && valid_move(choice)
+      move(choice.split(' ').last.to_sym)
     elsif choice.include?('pick up')
       item = choice.split.select{ |item| item != 'pick' && item != 'up' }.join(' ')
       pick_up(item)
@@ -119,6 +119,13 @@ class Game
     end
   end
 
+  # check that move is in a valid direction
+  def valid_move(user_input)
+    user_input.split(' ').first == 'move' &&
+      ['north','south', 'east', 'west'].include?(user_input.split(' ').last)
+  end
+
+	# see all the rooms
   def display_map
     @map.display_map
   end
@@ -257,12 +264,9 @@ class Game
     ]
   end
 
-  private
-
-  # TODO: refactor this like whoa, should work better with `parse_choice`
-  # should check if Player input is valid
+  # checks that Player input is valid
   def check_validity(choice)
-    valid_options = ['pick up', 'use', 'display inventory']
+    valid_options = ['pick up', 'use', 'display inventory', 'move']
     unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
       puts "That is not a valid choice. Try again."
     end

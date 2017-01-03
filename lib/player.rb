@@ -5,33 +5,34 @@ class Player
     @location = Location.new(0,0)
     puts "What is your name?"
     @name = gets.chomp
-    @inventory = {}
+    @inventory = []
   end
 
-  def has_item(item)
-    @inventory.include?(item)
+  def has_item(item_name)
+    self.inventory.map(&:name).include?(item_name)
   end
 
   def add_to_inventory(item)
-    has_item(item) ? @inventory[item] += 1 : @inventory[item] = 1
-    puts "#{item.capitalize} has been added to your inventory."
+    self.inventory.push(item)
+    puts "#{item.name.capitalize} has been added to your inventory."
   end
 
   def remove_from_inventory(item)
-    if @inventory[item] && @inventory[item] > 0
-      @inventory[item] -= 1
+    if @inventory.include?(item)
+      index = @inventory.index(item)
+      @inventory.delete_at(index)
     else
-      puts "Sorry, you don't have #{item}"
+      puts "Sorry, you don't have #{item.name}"
     end
   end
 
   def print_inventory
-    if @inventory.keys.length > 0
+    if @inventory.length > 0
       puts "\n"
       puts "INVENTORY"
       puts "========="
-      @inventory.each_pair do |item, count|
-        puts "* #{item}: #{count}"
+      @inventory.each do |item|
+        puts "* #{item.name}: #{item.count}"
       end
       puts "\n"
     else
