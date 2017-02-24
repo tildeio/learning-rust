@@ -1,6 +1,8 @@
+require 'pry'
 # NPC = Non Player Character
 class NPC
-  attr_reader :name, :inventory, :dialogue
+  attr_reader :name, :dialogue
+  attr_accessor :inventory
 
   def initialize(name, inventory, dialogue)
     @name = name
@@ -9,6 +11,11 @@ class NPC
   end
 
   def has_item(item)
-    self.inventory.name == item
+    @inventory.map(&:name).include?(item)
+  end
+
+  def remove_from_inventory(item)
+    @inventory.delete_if { |i| item.name == i.name }
+    puts "#{item.name} has been removed from #{self.name}'s inventory."
   end
 end

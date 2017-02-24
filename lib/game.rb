@@ -7,10 +7,6 @@ class Game
     @valid_choices = [
       :help,
       :exit,
-      :north,
-      :south,
-      :east,
-      :west,
       :display_map,
       :look_around,
       :pick_up,
@@ -23,7 +19,7 @@ class Game
 
     @player = Player.new
     @playing = true
-    @map = Map.new("Liz's Great Adventure", rooms, @player)
+    @map = Map.new("Great Ruby Adventure", rooms, @player)
   end
 
   def play
@@ -43,14 +39,20 @@ class Game
   # take item from an NPC
   def take(item_name)
     if current_room.npc && current_room.npc.has_item(item_name)
-      # inventory should be an array and not an InventoryItem object
-      item = current_room.npc.inventory.name == item_name ? current_room.npc.inventory : nil
-      # how to remove inventory item from npc?
-      # not sure inventory is being created correctly
-      npc_item = current_room.npc.inventory.pop(item)
+      npc_item = item_to_take(item_name)
       @player.add_to_inventory(npc_item)
+      # this just doesn't seem to remove the item from NPC inventory no matter what I do :(
+      current_room.npc.remove_from_inventory(npc_item)
     else
       puts "Sorry, that item isn't here."
+    end
+  end
+
+  def item_to_take(item_name)
+    if current_room.npc.inventory.map(&:name).include?(item_name)
+      current_room.npc.inventory.select { |i| i.name == item_name }.first
+    else
+      nil
     end
   end
 
@@ -69,7 +71,7 @@ class Game
   def use(item_name)
     # TODO: figure out how to pass around entire item object to access effects anywhere
     if @player.has_item(item_name) && current_room.npc && current_room.npc.has_item(item_name)
-      effect = current_room.npc.inventory.effects
+      effect = current_room.npc.inventory.select { |i| i.name == item_name }.first.effects
       puts effect
       @player.remove_from_inventory(item_name)
       # TODO: eventually remove from NPC inventory & change ownership of item
@@ -112,10 +114,10 @@ class Game
     elsif choice.include?('use')
       item = choice.split.select{ |item| item != 'use' }.join(' ')
       use(item)
-    elsif valid_choice != nil
+    elsif valid_choice != nil && check_validity(new_choice.to_sym)
       self.send valid_choice
     else
-      check_validity(new_choice.to_sym)
+      puts "That is not a valid choice, try again."
     end
   end
 
@@ -168,7 +170,7 @@ class Game
   def help
     puts <<-HEREDOC
       exit: exit the game
-      north, south, east, west: move in this direction
+      move north, south, east, west: move in this direction
       look around: see a description of the current room
       pick up _item_: add the item to your inventory
       take _item_: take an item from an NPC
@@ -193,7 +195,7 @@ class Game
         [InventoryItem.new("a jar of unicorn farts", 1, nil, "BOOM. Unicorn farts are powerful! You are now very sparkly.")],
         NPC.new(
           "Unicorn Doctor",
-          InventoryItem.new("vial of unicorn blood", 1, self, "The amazing unicorn blood has made you INVINCIBLE!"),
+          [InventoryItem.new("vial of unicorn blood", 1, self, "The amazing unicorn blood has made you INVINCIBLE!")],
           {
             default: "Hi I'm a unicorn doctor. It's pretty cool. I have a vial of unicorn blood, do you want it?"
           }
@@ -267,8 +269,6 @@ class Game
   # checks that Player input is valid
   def check_validity(choice)
     valid_options = ['pick up', 'use', 'display inventory', 'move']
-    unless @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
-      puts "That is not a valid choice. Try again."
-    end
+    @valid_choices.include?(choice.to_sym) || valid_options.include?(choice)
   end
 end

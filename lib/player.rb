@@ -17,12 +17,11 @@ class Player
     puts "#{item.name.capitalize} has been added to your inventory."
   end
 
-  def remove_from_inventory(item)
-    if @inventory.include?(item)
-      index = @inventory.index(item)
-      @inventory.delete_at(index)
+  def remove_from_inventory(item_name)
+    if @inventory.delete_if { |i| i.name == item_name }
+      puts "#{item_name} has been removed from your inventory"
     else
-      puts "Sorry, you don't have #{item.name}"
+      puts "Sorry, you don't have #{item_name}"
     end
   end
 
