@@ -91,9 +91,7 @@ impl Game {
         } else if let Some(captures) = regex("(?i)^move (?P<direction>.*)").captures(user_input) {
             self.change_location(captures.name("direction").expect("unexpected optional capture"));
         } else {
-            println!("{:?}", user_input);
-            let split_input = user_input.split_whitespace();
-            println!("{:?}", split_input.collect::<Vec<&str>>());
+            println!("No such command: {:?}. Sorry!", user_input);
         }
     }
 
