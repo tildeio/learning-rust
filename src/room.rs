@@ -16,12 +16,12 @@ impl Room {
     // As in Ruby, we make Room::new take an x, y and description,
     // and construct a Location using the x and y.
     pub fn new(x: u64,
-           y: u64,
-           name: String,
-           description: String,
-           items: Vec<InventoryItem>,
-           npc: NPC)
-           -> Room {
+               y: u64,
+               name: String,
+               description: String,
+               items: Vec<InventoryItem>,
+               npc: NPC)
+               -> Room {
         // returns a Room
         Room {
             // Construct a Room
