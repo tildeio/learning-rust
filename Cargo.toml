@@ -4,5 +4,4 @@ version = "0.1.0"
 authors = ["Liz Baillie and Yehuda Katz <engineering+lb+yk@tilde.io>"]
 
 [dependencies]
-regex = "*"
-regex_macros = "*"
+regex = "0.1.76"
