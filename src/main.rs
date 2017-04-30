@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+// #![feature(question_mark)]
 
 pub mod player;
 pub mod inventory_item;
@@ -27,60 +28,114 @@ pub fn room(x: u64,
 
 fn main() {
     // vec![] is the Array literal syntax in Rust.
-    let rooms = vec![room(0,
-                          2,
-                          "top left",
-                          "this is room one",
-                          vec![inventory_item::InventoryItem::new(1, "cool potion".to_string(), "this potion has turned you into a C00L d00d!".to_string())],
-                          npc::NPC::new("George".to_string(), vec![], "hi I'm George".to_string())),
-                     room(1,
-                          2,
-                          "top center",
-                          "this is room two",
-                          vec![inventory_item::InventoryItem::new(1, "dumb potion".to_string(), "this potion has turned you into a dumbb d00d!".to_string())],
-                          npc::NPC::new("Mike".to_string(), vec![], "hi I'm Mike".to_string())),
-                     room(2,
-                          2,
-                          "top right",
-                          "this is room three",
-                          vec![inventory_item::InventoryItem::new(1, "stinky potion".to_string(), "this potion has turned you into a stinky d00d!".to_string())],
-                          npc::NPC::new("Helen".to_string(), vec![], "hi I'm Helen".to_string())),
-                     room(0,
-                          1,
-                          "middle left",
-                          "this is room four",
-                          vec![inventory_item::InventoryItem::new(1, "charming potion".to_string(), "this potion has turned you into a charming d00d!".to_string())],
-                          npc::NPC::new("Linda".to_string(), vec![], "hi I'm Linda".to_string())),
-                     room(1,
-                          1,
-                          "middle center",
-                          "this is room five",
-                          vec![inventory_item::InventoryItem::new(1, "dog potion".to_string(), "this potion has turned you into a C00L d0g!".to_string())],
-                          npc::NPC::new("Prudence".to_string(), vec![inventory_item::InventoryItem::new(1, "potato chip potion".to_string(), "this potion has given you potato chips. You can't eat them, but they're there. LOOKING AT YOU.".to_string())], "hi I'm Prudence".to_string())),
-                     room(2,
-                          1,
-                          "middle right",
-                          "this is room six",
-                          vec![inventory_item::InventoryItem::new(1, "barfing potion".to_string(), "this potion has turned you into a barfing d00d!".to_string())],
-                          npc::NPC::new("Fred".to_string(), vec![], "hi I'm Fred".to_string())),
-                     room(0,
-                          0,
-                          "bottom left",
-                          "this is room seven",
-                          vec![inventory_item::InventoryItem::new(1, "hungry potion".to_string(), "this potion has turned you into a hungry d00d!".to_string())],
-                          npc::NPC::new("Crocodile Man".to_string(), vec![], "hi I'm Crocodile Man".to_string())),
-                     room(1,
-                          0,
-                          "bottom center",
-                          "this is room eight",
-                          vec![inventory_item::InventoryItem::new(1, "cute potion".to_string(), "this potion has turned you into a cute d00d!".to_string())],
-                          npc::NPC::new("Crocodile Woman".to_string(), vec![], "hi I'm Crocodile Woman".to_string())),
-                     room(2,
-                          0,
-                          "bottom right",
-                          "this is room nine",
-                          vec![inventory_item::InventoryItem::new(1, "tall potion".to_string(), "this potion has turned you into a tall d00d!".to_string())],
-                          npc::NPC::new("Cool Unicorn".to_string(), vec![], "hi I'm Cool Unicorn".to_string()))];
+    let rooms =
+        vec![room(0,
+                  2,
+                  "top left",
+                  "this is room one",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "cool potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           C00L d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("George".to_string(), vec![], "hi I'm George".to_string())),
+             room(1,
+                  2,
+                  "top center",
+                  "this is room two",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "dumb potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           dumbb d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Mike".to_string(), vec![], "hi I'm Mike".to_string())),
+             room(2,
+                  2,
+                  "top right",
+                  "this is room three",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "stinky potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           stinky d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Helen".to_string(), vec![], "hi I'm Helen".to_string())),
+             room(0,
+                  1,
+                  "middle left",
+                  "this is room four",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "charming potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           charming d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Linda".to_string(), vec![], "hi I'm Linda".to_string())),
+             room(1,
+                  1,
+                  "middle center",
+                  "this is room five",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "dog potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           C00L d0g!"
+                                                              .to_string())],
+                  npc::NPC::new("Prudence".to_string(),
+                                vec![inventory_item::InventoryItem::new(1,
+                                                                        "potato chip potion"
+                                                                            .to_string(),
+                                                                        "this potion has \
+                                                                         given you potato \
+                                                                         chips. You can't \
+                                                                         eat them, but \
+                                                                         they're there. \
+                                                                         LOOKING AT YOU."
+                                                                            .to_string())],
+                                "hi I'm Prudence".to_string())),
+             room(2,
+                  1,
+                  "middle right",
+                  "this is room six",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "barfing potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           barfing d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Fred".to_string(), vec![], "hi I'm Fred".to_string())),
+             room(0,
+                  0,
+                  "bottom left",
+                  "this is room seven",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "hungry potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           hungry d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Crocodile Man".to_string(),
+                                vec![],
+                                "hi I'm Crocodile Man".to_string())),
+             room(1,
+                  0,
+                  "bottom center",
+                  "this is room eight",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "cute potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           cute d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Crocodile Woman".to_string(),
+                                vec![],
+                                "hi I'm Crocodile Woman".to_string())),
+             room(2,
+                  0,
+                  "bottom right",
+                  "this is room nine",
+                  vec![inventory_item::InventoryItem::new(1,
+                                                          "tall potion".to_string(),
+                                                          "this potion has turned you into a \
+                                                           tall d00d!"
+                                                              .to_string())],
+                  npc::NPC::new("Cool Unicorn".to_string(),
+                                vec![],
+                                "hi I'm Cool Unicorn".to_string()))];
 
     let player = player::Player::new(vec![], 1, 1);
     let map = map::Map::new("Great Rust Adventure", rooms);
@@ -118,12 +173,22 @@ mod tests {
 
     // helper function for constructing a 4x4 list of rooms.
     fn big_rooms() -> Vec<Room> {
-        vec![
-        simple_room(0, 3), simple_room(1, 3), simple_room(2, 3), simple_room(3, 3),
-        simple_room(0, 2), simple_room(1, 2), simple_room(2, 2), simple_room(3, 2),
-        simple_room(0, 1), simple_room(1, 1), simple_room(2, 1), simple_room(3, 1),
-        simple_room(0, 0), simple_room(1, 0), simple_room(2, 0), simple_room(3, 0),
-      ]
+        vec![simple_room(0, 3),
+             simple_room(1, 3),
+             simple_room(2, 3),
+             simple_room(3, 3),
+             simple_room(0, 2),
+             simple_room(1, 2),
+             simple_room(2, 2),
+             simple_room(3, 2),
+             simple_room(0, 1),
+             simple_room(1, 1),
+             simple_room(2, 1),
+             simple_room(3, 1),
+             simple_room(0, 0),
+             simple_room(1, 0),
+             simple_room(2, 0),
+             simple_room(3, 0)]
     }
 
     fn map() -> Map {

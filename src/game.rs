@@ -1,11 +1,10 @@
+extern crate regex;
+
 use player::Player;
 use map::Map;
 use room::Room;
 use inventory_item::InventoryItem;
 use std::io;
-
-extern crate regex;
-use Chomp;
 
 // where most player console interactions and game loop will be defined
 #[derive(Debug, Eq, PartialEq)]
@@ -37,11 +36,17 @@ impl Game {
     }
 
     fn current_room(&self) -> &Room {
-        self.map.rooms.get(&self.player.location).expect("BUG: The player's location must exist in the map")
+        self.map
+            .rooms
+            .get(&self.player.location)
+            .expect("BUG: The player's location must exist in the map")
     }
 
     fn current_room_mut(&mut self) -> &mut Room {
-        self.map.rooms.get_mut(&self.player.location).expect("BUG: The player's location must exist in the map")
+        self.map
+            .rooms
+            .get_mut(&self.player.location)
+            .expect("BUG: The player's location must exist in the map")
     }
 
     fn player(&self) -> &Player {
@@ -59,7 +64,7 @@ impl Game {
             .read_line(&mut user_input)
             .expect("Could not read line");
 
-        let user_input = user_input.chomp();
+        let user_input = user_input.trim();
 
         if user_input == "look around" {
             self.look_around();
@@ -83,13 +88,15 @@ impl Game {
             println!("display map: look at map");
             println!("print inventory: show current player inventory");
         } else if let Some(captures) = regex("(?i)^pick up (?P<thing>.*)").captures(user_input) {
-            self.pick_up(captures.name("thing").expect("unexpected optional capture"));
+            self.pick_up(captures.name("thing").expect("unexpected optional capture").as_str());
         } else if let Some(captures) = regex("(?i)^take (?P<thing>.*)").captures(user_input) {
-            self.take(captures.name("thing").expect("unexpected optional capture"));
+            self.take(captures.name("thing").expect("unexpected optional capture").as_str());
         } else if let Some(captures) = regex("(?i)^use (?P<thing>.*)").captures(user_input) {
-            self.use_item(captures.name("thing").expect("unexpected optional capture"));
+            self.use_item(captures.name("thing").expect("unexpected optional capture").as_str());
         } else if let Some(captures) = regex("(?i)^move (?P<direction>.*)").captures(user_input) {
-            self.change_location(captures.name("direction").expect("unexpected optional capture"));
+            self.change_location(captures.name("direction")
+                .expect("unexpected optional capture")
+                .as_str());
         } else {
             println!("No such command: {:?}. Sorry!", user_input);
         }
@@ -123,22 +130,30 @@ impl Game {
 
     fn pick_up(&mut self, item_name: &str) {
         match self.string_to_inventory_item(item_name) {
-            Some(item) => { self.player.add_to_inventory(item); }
-            None => println!("Sorry, {} wasn't found in the current room", item_name)
+            Some(item) => {
+                self.player.add_to_inventory(item);
+            }
+            None => println!("Sorry, {} wasn't found in the current room", item_name),
         };
     }
 
     fn take(&mut self, item_name: &str) {
         match self.string_to_npc_item(item_name) {
-            Some(item) => { self.player.add_to_inventory(item); }
-            None => println!("Sorry, {} doesn't have {}.", self.current_room().npc().name, item_name)
+            Some(item) => {
+                self.player.add_to_inventory(item);
+            }
+            None => {
+                println!("Sorry, {} doesn't have {}.",
+                         self.current_room().npc().name,
+                         item_name)
+            }
         }
     }
 
     fn use_item(&mut self, item_name: &str) {
         match self.string_to_player_item(item_name) {
-            Some(item) => { println!("{}", item.effects) }
-            None => println!("Sorry, you don't have {} in your inventory.", item_name)
+            Some(item) => println!("{}", item.effects),
+            None => println!("Sorry, you don't have {} in your inventory.", item_name),
         }
     }
 
@@ -189,7 +204,9 @@ impl Game {
         println!("{} is here too!", &self.current_room().npc.name);
 
         if !&self.current_room().npc().inventory.is_empty() {
-            println!("{} has {:?}.", &self.current_room().npc.name, &self.current_room().npc.inventory)
+            println!("{} has {:?}.",
+                     &self.current_room().npc.name,
+                     &self.current_room().npc.inventory)
         }
     }
 
